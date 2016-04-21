@@ -1,0 +1,392 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication14_2;
+
+/**
+ *
+ * @author Oyla
+ */
+public class JavaApplication14_2 {
+
+    public static void main(String[] args) {
+        HorseMoving h = new HorseMoving(0, 6);
+        System.out.println(h.showBoard());
+
+        QueensOnBoard q = new QueensOnBoard();
+        System.out.println(q.showBoard());
+
+        TurtleMoving t = new TurtleMoving(3);
+        System.out.println(t.showBoard());
+
+        PathSearch p = new PathSearch();
+        System.out.println(p.showBoard());
+    }
+
+}
+
+/**
+ * 13. Ход конём.
+ */
+class HorseMoving {
+
+    static int size = 8;
+    static int[][] board = new int[size][size];
+    int x;
+    int y;
+    int[] xMove = {-1, 1, -1, 1, -2, -2, 2, 2};
+    int[] yMove = {2, 2, -2, -2, 1, -1, -1, 1};
+
+    public HorseMoving() {
+        this(0, 0);
+    }
+
+    public HorseMoving(int y, int x) {
+        this.y = y;
+        this.x = x;
+        moveHorse(y, x, 1);
+    }
+
+    public void moveHorse(int y, int x, int step) {
+        board[y][x] = step;
+        int x1;
+        int y1;
+        boolean state = true;
+        for (int i = 0; i < xMove.length; i++) {
+            x1 = x + xMove[i];
+            y1 = y + yMove[i];
+            if ((x1 >= 0) && (y1 >= 0) && (x1 < size) && (y1 < size) && (board[y1][x1] == 0)) {
+                for (int k = 0; k < size; k++) {
+                    for (int l = 0; l < size; l++) {
+                        if (step > 1 && board[k][l] == (step + 1)) {
+                            state = false;
+                        }
+                    }
+                }
+                if (state) {
+                    moveHorse(y1, x1, step + 1);
+                }
+            }
+        }
+        if (!state) {
+            for (int k = 0; k < size; k++) {
+                for (int l = 0; l < size; l++) {
+                    if (step > 1 && board[k][l] >= step) {
+                        board[k][l] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    public String showBoard() {
+        String s = "";
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.printf("%3d", board[i][j]);
+            }
+            System.out.println("");
+        }
+        return s;
+    }
+}
+
+/**
+ * 14. 8 ферзей.
+ */
+class QueensOnBoard {
+
+    static int size = 8;
+    static int empty = size + 1;
+    static int queen = size + 2;
+    static int[][] board = new int[size][size];
+    static int count = 0;
+
+    public QueensOnBoard() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                board[i][j] = empty;
+            }
+        }
+        setQueen(0);
+    }
+
+    public static void setQueen(int y) {
+        int minX = 0;
+        int maxX = 0;
+        boolean state = false;
+        for (int i = 0; i < size; i++) {
+            if (board[y][i] == empty) {
+                board[y][i] = queen;
+                for (int k = 0; k < size; k++) {
+                    minX = i - y + k;
+                    maxX = i + y - k;
+                    for (int l = 0; l < size; l++) {
+                        if (board[k][l] == empty && (k == y || l == i)) {
+                            board[k][l] = y;
+                        }
+                        if (board[k][l] == empty && minX >= 0 && minX < size && minX == l) {
+                            board[k][l] = y;
+                        }
+                        if (board[k][l] == empty && maxX >= 0 && maxX < size && maxX == l) {
+                            board[k][l] = y;
+                        }
+                    }
+                }
+                if (y + 1 < size) {
+                    setQueen(y + 1);
+                }
+            }
+            if (board[y][i] == queen) {
+                state = true;
+            }
+        }
+        if (!state) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (board[i][j] == y - 1 || (y - 1 == i && board[i][j] == queen)) {
+                        board[i][j] = empty;
+                    }
+                }
+            }
+        }
+
+    }
+
+    public String showBoard() {
+        String s = "";
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board[i][j] == queen) {
+                    s += String.format("%2s", "Q");
+                } else {
+                    s += String.format("%2s", "*");
+                }
+            }
+            s += "\n";
+        }
+        return s;
+    }
+}
+
+/**
+ * 15. Черепашка.
+ *
+ * @author Oyla
+ */
+class TurtleMoving {
+
+    static String[][] board;
+    static int N;
+    static int min = 1;
+    static int max = 100;
+    static int[] moveX = {1, 0};
+    static int[] moveY = {0, 1};
+    static int maxSum = 0;
+    static String maxSteps = "";
+
+    public TurtleMoving() {
+        this(5);
+    }
+
+    public TurtleMoving(int N) {
+        this.N = N;
+        board = new String[N][N];
+        int strFormat = 1;
+        while (max / Math.pow(10, strFormat) > 1) {
+            strFormat++;
+        }
+        strFormat += 2;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                board[i][j] = String.format("%" + strFormat + "d", (int) (Math.random() * (max - min + 1) + min));
+            }
+        }
+        int y = 0;
+        int x = 0;
+        int step = 0;
+        board[y][x] = String.format("%" + strFormat + "s", "*T");
+        moveTurtle(0, 0, 0, "");
+        for (int i = 0; i < maxSteps.length(); i++) {
+            step = Integer.parseInt(maxSteps.substring(i, i + 1));
+            y += moveY[step];
+            x += moveX[step];
+            board[y][x] = String.format("%" + strFormat + "s", "*" + board[y][x].trim());
+        }
+    }
+
+    public void moveTurtle(int y, int x, int sum, String steps) {
+        int newY = y;
+        int newX = x;
+
+        if (y == (N - 1) && x == (N - 1)) {
+            if (sum > maxSum) {
+                maxSum = sum;
+                maxSteps = steps;
+            }
+        }
+        for (int i = 0; i < moveX.length; i++) {
+            newY = y + moveY[i];
+            newX = x + moveX[i];
+            if (newX < N && newY < N) {
+                moveTurtle(newY, newX, sum + Integer.parseInt(board[newY][newX].trim()), steps + i);
+            }
+        }
+    }
+
+    public String showBoard() {
+        String s = "";
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                s += board[i][j];
+            }
+            s += "\n";
+        }
+        s += "maxSum = " + maxSum;
+        return s;
+    }
+}
+
+/**
+ * 16. Поиск пути
+ */
+class PathSearch {
+
+    static int M;
+    static int N;
+    static int A;
+    static int B;
+    static int C;
+    static int D;
+    static String[][] board;
+    static String minSteps = "";
+    static int[] moveX = {1, 0, -1, 0};
+    static int[] moveY = {0, 1, 0, -1};
+    static boolean pathExist = false;
+    static int countPaths = 0;
+
+    public PathSearch() {
+        this(0, 0, 0, 0, 0, 0);
+    }
+
+    public PathSearch(int M, int N, int A, int B, int C, int D) {
+        if (M <= 0 || N <= 0 || A <= 0 || A >= M || B <= 0 || B >= N || C <= 0 || C >= M || D <= 0 || D >= N) {
+            int min = 10;
+            int max = 10;
+            M = setRandom(min, max);
+            N = setRandom(min, max);
+            while (A == C && B == D) {
+                A = setRandom(0, M - 1);
+                C = setRandom(0, M - 1);
+                B = setRandom(0, N - 1);
+                D = setRandom(0, N - 1);
+            }
+        }
+        this.M = M;
+        this.N = N;
+        this.A = A;
+        this.B = B;
+        this.C = C;
+        this.D = D;
+        setBoard();
+    }
+
+    public int setRandom(int min, int max) {
+        return (int) (Math.random() * (max - min + 1) + min);
+    }
+
+    public void setBoard() {
+        board = new String[M][N];
+        int min = 0;
+        int max = 1;
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                board[i][j] = (int) (Math.random() * (max - min + 1) + min) + "";
+            }
+        }
+        board[A][B] = "T";
+        board[C][D] = "G";
+        findPath(A, B, "");
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                if (board[i][j].equals("x") || board[i][j].equals("+")) {
+                    board[i][j] = "0";
+                }
+            }
+        }
+        int y = A;
+        int x = B;
+        int step;
+        for (int i = 0; i < minSteps.length() - 1; i++) {
+            step = Integer.parseInt(minSteps.substring(i, i + 1));
+            y += moveY[step];
+            x += moveX[step];
+            board[y][x] = "*";
+        }
+    }
+
+    public void findPath(int y, int x, String pathSteps) {
+        int yNew;
+        int xNew;
+        int[] sort = sortDirections(y, x);
+        for (int i = 0; i < sort.length; i++) {
+            yNew = y + moveY[sort[i]];
+            xNew = x + moveX[sort[i]];
+
+            if (yNew >= 0 && yNew < M && xNew >= 0 && xNew < N) {
+                if (yNew == C && xNew == D) {
+                    countPaths++;
+                    pathSteps += sort[i];
+                    if (minSteps.length() == 0 || minSteps.length() > pathSteps.length()) {
+                        minSteps = pathSteps;
+                    }
+                } else if (board[yNew][xNew].equals("0")) {
+                    board[yNew][xNew] = "+";
+                    findPath(yNew, xNew, pathSteps + sort[i]);
+                }
+            }
+        }
+        if (y != A && x != B) {
+            board[y][x] = "x";
+        }
+    }
+
+    public int[] sortDirections(int y, int x) {
+        int[] diff = new int[moveX.length];
+        for (int i = 0; i < diff.length; i++) {
+            diff[i] = Math.abs(y + moveY[i] - C) + Math.abs(x + moveX[i] - D);
+        }
+        int[] sort = new int[moveX.length];
+        for (int i = 0; i < sort.length; i++) {
+            sort[i] = i;
+        }
+        for (int i = 0; i < sort.length - 1; i++) {
+            for (int j = i + 1; j < sort.length; j++) {
+                if (diff[sort[i]] > diff[sort[j]]) {
+                    sort[i] += sort[j];
+                    sort[j] = sort[i] - sort[j];
+                    sort[i] -= sort[j];
+                }
+            }
+        }
+        return sort;
+    }
+
+    public String showBoard() {
+        String s = "";
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                s += String.format("%-2s", board[i][j]);
+            }
+            s += "\n";
+        }
+        if (countPaths > 0) {
+            s += "\nThe shortest path has " + minSteps.length() + " steps";
+        } else {
+            s += "\nPath does not exist";
+        }
+        return s;
+    }
+}
