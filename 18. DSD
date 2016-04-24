@@ -1,0 +1,627 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication18;
+
+/**
+ *
+ * @author Oyla
+ */
+public class JavaApplication18 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        MyArrayList myList = new MyArrayList();
+        System.out.println("\"new MyArrayList()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.setData(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+        System.out.println("\n\"myList.setData(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.setData(101, 2, 103, 4, 105, 6, 107, 8, 109, 10, 111, 12, 113, 14, 115, 16, 117);
+        System.out.println("\n\"myList.setData(101, 2, 103, 4, 105, 6, 107, 8, 109, 10, 111, 12, 113, 14, 115, 16, 117)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.pushBack(218);
+        System.out.println("\n\"myList.pushBack(218)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.pushFront(0);
+        System.out.println("\n\"myList.pushFront(0)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.insert(10, 0);
+        System.out.println("\n\"myList.insert(10, 0)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.removeAt(11);
+        System.out.println("\n\"removeAt(11)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.remove(0);
+        System.out.println("\n\"myList.remove(0)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.popFront();
+        System.out.println("\n\"myList.popFront()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.popBack();
+        System.out.println("\n\"myList.popBack()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.setCapacity(20);
+        System.out.println("\n\"myList.setCapacity(20)" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.trimToSize();
+        System.out.println("\n\"trimToSize()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        System.out.println("\nmyList.indexOf(111) = " + myList.indexOf(111));
+
+        myList.reverse();
+        System.out.println("\nmyList.reverse()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.sortAsc();
+        System.out.println("\n\"sortAsc()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        myList.sortDesc();
+        System.out.println("\n\"myList.sortDesc()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        MyArrayList cloneList = myList.clone();
+        System.out.println("\n\"myList.cloneList.size=" + cloneList.getSize() + " cloneList.capacity=" + cloneList.getCapacity() + "\"");
+        System.out.println(cloneList.print());
+
+        System.out.println("\n\"cloneList.equals(myList)\"");
+        if (cloneList.equals(myList)) {
+            System.out.println("Arrays have equal content");
+        } else {
+            System.out.println("Arrays are not equal");
+        }
+
+        cloneList.shuffle();
+        System.out.println("\n\"cloneList.shuffle()" + " size=" + cloneList.getSize() + " capacity=" + cloneList.getCapacity() + "\"");
+        System.out.println(cloneList.print());
+
+        System.out.println("\n\"myList.equals(cloneList)\"");
+        if (myList.equals(cloneList)) {
+            System.out.println("Arrays have equal content");
+        } else {
+            System.out.println("Arrays are not equal");
+        }
+
+        myList.randomFill(50, 1);
+        System.out.println("\n\"myList.randomFill()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        System.out.println("\nmyList.getElementAt(13) = " + myList.getElementAt(13));
+
+        myList.clear();
+        System.out.println("\n\"clear()" + " size=" + myList.getSize() + " capacity=" + myList.getCapacity() + "\"");
+        System.out.println(myList.print());
+
+        Student s = new Student("Ivanov", "Ivan", "Ivanovich", new Date("1979-05-07"), new Address(), new Phone("0677127374"));
+        System.out.println("\n\"Student s = new Student(\"Ivanov\", \"Ivan\", \"Ivanovich\", new Date(\"1979-05-07\"), new Address(), new Phone(\"0677127374\")); s.setTestsData(100, 99, 56); s.setCoursesData(50, 60); s.setExamsData(100, 24, 65);\"");
+        s.setTestsData(100, 99, 56);
+        s.setCoursesData(50, 60);
+        s.setExamsData(100, 24, 65);
+        System.out.println(s.showStudent());
+
+        Student s2 = new Student();
+        System.out.println("\"Student s2 = new Student()\"");
+        System.out.println(s2.showStudent());
+
+        StudentArrayList studentList = new StudentArrayList(5);
+        studentList.setData(s, s2);
+        System.out.println("\"StudentArrayList studentList = new StudentArrayList(5) studentList.setData(s, s2)\"");
+        System.out.println(studentList.showStudents());
+
+        studentList.randomFill();
+        studentList.sortAsc();
+        System.out.println("\"studentList.randomFill(); studentList.sortAsc();\"");
+        System.out.println(studentList.showStudentsWithRating());
+
+        Group g = new Group();
+        System.out.println("\"Group g = new Group()\"");
+        System.out.println(g.showData());
+
+        Group g2 = new Group(s2, s);
+        System.out.println("\"Group g2 = new Group(s2,s)\"");
+        System.out.println(g2.showData());
+
+        Group g3 = new Group(g2);
+        System.out.println("\"Group g3 = new Group(g2)\"");
+        System.out.println(g3.showData());
+
+        g.addStudent(s);
+        g.addStudent(s2);
+        System.out.println("\"g.addStudent(s); g.addStudent(s2)\"");
+        System.out.println(g.showData());
+
+        g2.editGroupData("Android 8", "Application Development", 1);
+        g2.editStudentData(1, new Student("Petrov", "Petr", "Petrovich"));
+        System.out.println("\"g2.editGroupData(\"Android 8\", \"Application Development\", 1); g2.editStudentData(1, new Student(\"Petrov\", \"Petr\", \"Petrovich\"));\"");
+        System.out.println(g2.showData());
+        
+        g2.transferStudent(g, 10);
+        System.out.println("\"g2.transferStudent(g, 10);\"");
+        System.out.println(g.showData());
+        System.out.println(g2.showData());
+
+        g.excludeStudentBySession(33);
+        System.out.println("\"g.excludeStudentBySession(33)\"");
+        System.out.println(g.showData());
+
+        g.excludeByPoorProgress();
+        System.out.println("\"g.excludeByPoorProgress()\"");
+        System.out.println(g.showData());
+    }
+
+}
+
+run:
+"new MyArrayList() size=0 capacity=10"
+Collection is empty.
+
+"myList.setData(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) size=11 capacity=17"
+1 2 3 4 5 6 7 8 9 10 11 
+
+
+"myList.setData(101, 2, 103, 4, 105, 6, 107, 8, 109, 10, 111, 12, 113, 14, 115, 16, 117) size=17 capacity=17"
+101 2 103 4 105 6 107 8 109 10 111 12 113 14 115 16 117 
+
+
+"myList.pushBack(218) size=18 capacity=28"
+101 2 103 4 105 6 107 8 109 10 111 12 113 14 115 16 117 218 
+
+
+"myList.pushFront(0) size=19 capacity=28"
+0 101 2 103 4 105 6 107 8 109 10 111 12 113 14 115 16 117 218 
+
+
+"myList.insert(10, 0) size=20 capacity=28"
+0 101 2 103 4 105 6 107 8 109 0 10 111 12 113 14 115 16 117 218 
+
+
+"removeAt(11) size=19 capacity=28"
+0 101 2 103 4 105 6 107 8 109 0 111 12 113 14 115 16 117 218 
+
+
+"myList.remove(0) size=17 capacity=28"
+101 2 103 4 105 6 107 8 109 111 12 113 14 115 16 117 218 
+
+
+"myList.popFront() size=16 capacity=28"
+2 103 4 105 6 107 8 109 111 12 113 14 115 16 117 218 
+
+
+"myList.popBack() size=15 capacity=28"
+2 103 4 105 6 107 8 109 111 12 113 14 115 16 117 
+
+
+"myList.setCapacity(20) size=15 capacity=20"
+2 103 4 105 6 107 8 109 111 12 113 14 115 16 117 
+
+
+"trimToSize() size=15 capacity=15"
+2 103 4 105 6 107 8 109 111 12 113 14 115 16 117 
+
+
+myList.indexOf(111) = 8
+
+myList.reverse() size=15 capacity=15"
+117 16 115 14 113 12 111 109 8 107 6 105 4 103 2 
+
+
+"sortAsc() size=15 capacity=15"
+2 4 6 8 12 14 16 103 105 107 109 111 113 115 117 
+
+
+"myList.sortDesc() size=15 capacity=15"
+117 115 113 111 109 107 105 103 16 14 12 8 6 4 2 
+
+
+"myList.cloneList.size=15 cloneList.capacity=15"
+117 115 113 111 109 107 105 103 16 14 12 8 6 4 2 
+
+
+"cloneList.equals(myList)"
+Arrays have equal content
+
+"cloneList.shuffle() size=15 capacity=15"
+8 2 109 113 115 105 12 4 107 16 6 117 111 14 103 
+
+
+"myList.equals(cloneList)"
+Arrays are not equal
+
+"myList.randomFill() size=15 capacity=15"
+13 1 24 43 14 16 44 44 1 31 1 23 40 24 29 
+
+
+myList.getElementAt(13) = 24
+
+"clear() size=0 capacity=15"
+Collection is empty.
+
+"Student s = new Student("Ivanov", "Ivan", "Ivanovich", new Date("1979-05-07"), new Address(), new Phone("0677127374")); s.setTestsData(100, 99, 56); s.setCoursesData(50, 60); s.setExamsData(100, 24, 65);"
+Ivanov Ivan Ivanovich
+7 Мау 1979
+Unknown address
+067-712-7374
+Tests: 100 99 56 
+Courses: 50 60 
+Exams: 100 24 65 
+
+"Student s2 = new Student()"
+Unknown  
+24 Apr 2016
+Unknown address
+Unknown phone
+Tests: no ratings
+Courses: no ratings
+Exams: no ratings
+
+"StudentArrayList studentList = new StudentArrayList(5) studentList.setData(s, s2)"
+Students: 
+1. Ivanov Ivan Ivanovich
+2. Unknown  
+
+"studentList.randomFill(); studentList.sortAsc();"
+Students (with ratings):
+1. Enmehec Yshefy
+	Tests: 15 3 26 48 9 64 35 30 (Sum = 230)
+	Courses: 36 74 47 4 72 29 50 57 98 (Sum = 467)
+	Exams: 71 32 50 63 69 73 (Sum = 358)
+2. Fdizmbcy Oxvzjsyvk
+	Tests: 18 82 78 70 3 43 88 69 (Sum = 451)
+	Courses: 100 59 76 28 7 37 57 21 85 (Sum = 470)
+	Exams: 70 55 84 56 68 100 (Sum = 433)
+3. Jmobmu Xtauc
+	Tests: 9 67 85 76 10 98 7 96 (Sum = 448)
+	Courses: 83 10 99 67 99 44 66 21 11 (Sum = 500)
+	Exams: 86 42 43 61 75 77 (Sum = 384)
+4. Qmhvs Uutg
+	Tests: 34 0 45 66 64 27 40 77 (Sum = 353)
+	Courses: 30 77 41 63 73 34 86 5 89 (Sum = 498)
+	Exams: 60 82 93 34 59 77 (Sum = 405)
+5. Ywooiduyaf Unidub
+	Tests: 57 77 40 80 63 51 93 22 (Sum = 483)
+	Courses: 89 14 0 51 72 37 34 23 46 (Sum = 366)
+	Exams: 62 57 77 83 98 95 (Sum = 472)
+
+"Group g = new Group()"
+Group: Unknown
+Specialization: Unknown
+Course: 0
+Students (with ratings):
+1. Alxzyjt Ervacjqk
+	Tests: 69 96 65 55 25 (Sum = 310)
+	Courses: 96 90 40 59 71 (Sum = 356)
+	Exams: 56 53 84 87 30 36 37 49 57 61 (Sum = 550)
+2. Cgph Krof
+	Tests: 71 53 50 45 91 (Sum = 310)
+	Courses: 29 13 10 73 16 (Sum = 141)
+	Exams: 84 61 66 46 50 47 60 86 61 58 (Sum = 619)
+3. Cvqajqz Hhlzhdoq
+	Tests: 11 95 74 11 29 (Sum = 220)
+	Courses: 81 21 53 45 63 (Sum = 263)
+	Exams: 55 30 69 56 60 54 53 94 47 73 (Sum = 591)
+4. Elsxtl Eouowive
+	Tests: 43 8 35 95 98 (Sum = 279)
+	Courses: 21 2 92 53 12 (Sum = 180)
+	Exams: 57 36 70 70 43 67 89 30 95 65 (Sum = 622)
+5. Hkcdylu Tngovdf
+	Tests: 86 37 39 17 55 (Sum = 234)
+	Courses: 30 71 87 69 17 (Sum = 274)
+	Exams: 59 100 99 83 46 71 85 41 30 49 (Sum = 663)
+6. Jlnvaaikv Nzzdyzaij
+	Tests: 18 34 70 45 28 (Sum = 195)
+	Courses: 15 62 39 45 77 (Sum = 238)
+	Exams: 80 80 56 73 55 51 43 90 76 46 (Sum = 650)
+7. Nfulrcfy Oqzpmtk
+	Tests: 54 49 4 93 25 (Sum = 225)
+	Courses: 76 33 91 20 38 (Sum = 258)
+	Exams: 60 41 32 78 74 58 57 81 95 75 (Sum = 651)
+8. Ohwzuis Wujrw
+	Tests: 32 70 21 82 16 (Sum = 221)
+	Courses: 40 41 59 28 73 (Sum = 241)
+	Exams: 40 40 38 55 42 47 74 82 79 91 (Sum = 588)
+9. Onmhkc Xbxsgla
+	Tests: 67 12 58 78 68 (Sum = 283)
+	Courses: 9 26 22 2 30 (Sum = 89)
+	Exams: 83 96 71 44 58 48 47 46 46 75 (Sum = 614)
+10. Qcccognh Stkpaodsoi
+	Tests: 33 83 56 66 37 (Sum = 275)
+	Courses: 66 25 8 18 3 (Sum = 120)
+	Exams: 98 32 36 31 50 60 87 52 99 32 (Sum = 577)
+11. Rqelagfpsd Minbzlxy
+	Tests: 55 74 38 19 75 (Sum = 261)
+	Courses: 26 31 29 6 49 (Sum = 141)
+	Exams: 74 31 66 59 47 50 72 93 60 66 (Sum = 618)
+12. Ryhsl Bsdicmxmul
+	Tests: 36 20 46 73 21 (Sum = 196)
+	Courses: 61 57 94 78 6 (Sum = 296)
+	Exams: 68 33 53 100 68 34 45 61 44 94 (Sum = 600)
+13. Spspiuic Qazymp
+	Tests: 86 17 53 72 72 (Sum = 300)
+	Courses: 17 48 52 7 74 (Sum = 198)
+	Exams: 42 43 49 36 67 32 33 32 91 49 (Sum = 474)
+14. Xqbhtjy Bzrfir
+	Tests: 49 60 27 78 42 (Sum = 256)
+	Courses: 19 82 45 1 43 (Sum = 190)
+	Exams: 68 37 68 81 89 78 83 83 88 33 (Sum = 708)
+15. Zwoc Lijnezpwk
+	Tests: 78 34 2 81 7 (Sum = 202)
+	Courses: 86 45 58 48 24 (Sum = 261)
+	Exams: 45 36 71 88 49 32 51 37 79 72 (Sum = 560)
+
+"Group g2 = new Group(s2,s)"
+Group: Unknown
+Specialization: Unknown
+Course: 0
+Students (with ratings):
+1. Ivanov Ivan
+	Tests: 100 99 56 (Sum = 255)
+	Courses: 50 60 (Sum = 110)
+	Exams: 100 24 65 (Sum = 189)
+2. Unknown 
+	Tests: no ratings (Sum = 0)
+	Courses: no ratings (Sum = 0)
+	Exams: no ratings (Sum = 0)
+
+"Group g3 = new Group(g2)"
+Group: Unknown
+Specialization: Unknown
+Course: 0
+Students (with ratings):
+1. Ivanov Ivan
+	Tests: 100 99 56 (Sum = 255)
+	Courses: 50 60 (Sum = 110)
+	Exams: 100 24 65 (Sum = 189)
+2. Unknown 
+	Tests: no ratings (Sum = 0)
+	Courses: no ratings (Sum = 0)
+	Exams: no ratings (Sum = 0)
+
+"g.addStudent(s); g.addStudent(s2)"
+Group: Unknown
+Specialization: Unknown
+Course: 0
+Students (with ratings):
+1. Alxzyjt Ervacjqk
+	Tests: 69 96 65 55 25 (Sum = 310)
+	Courses: 96 90 40 59 71 (Sum = 356)
+	Exams: 56 53 84 87 30 36 37 49 57 61 (Sum = 550)
+2. Cgph Krof
+	Tests: 71 53 50 45 91 (Sum = 310)
+	Courses: 29 13 10 73 16 (Sum = 141)
+	Exams: 84 61 66 46 50 47 60 86 61 58 (Sum = 619)
+3. Cvqajqz Hhlzhdoq
+	Tests: 11 95 74 11 29 (Sum = 220)
+	Courses: 81 21 53 45 63 (Sum = 263)
+	Exams: 55 30 69 56 60 54 53 94 47 73 (Sum = 591)
+4. Elsxtl Eouowive
+	Tests: 43 8 35 95 98 (Sum = 279)
+	Courses: 21 2 92 53 12 (Sum = 180)
+	Exams: 57 36 70 70 43 67 89 30 95 65 (Sum = 622)
+5. Hkcdylu Tngovdf
+	Tests: 86 37 39 17 55 (Sum = 234)
+	Courses: 30 71 87 69 17 (Sum = 274)
+	Exams: 59 100 99 83 46 71 85 41 30 49 (Sum = 663)
+6. Ivanov Ivan
+	Tests: 100 99 56 (Sum = 255)
+	Courses: 50 60 (Sum = 110)
+	Exams: 100 24 65 (Sum = 189)
+7. Jlnvaaikv Nzzdyzaij
+	Tests: 18 34 70 45 28 (Sum = 195)
+	Courses: 15 62 39 45 77 (Sum = 238)
+	Exams: 80 80 56 73 55 51 43 90 76 46 (Sum = 650)
+8. Nfulrcfy Oqzpmtk
+	Tests: 54 49 4 93 25 (Sum = 225)
+	Courses: 76 33 91 20 38 (Sum = 258)
+	Exams: 60 41 32 78 74 58 57 81 95 75 (Sum = 651)
+9. Ohwzuis Wujrw
+	Tests: 32 70 21 82 16 (Sum = 221)
+	Courses: 40 41 59 28 73 (Sum = 241)
+	Exams: 40 40 38 55 42 47 74 82 79 91 (Sum = 588)
+10. Onmhkc Xbxsgla
+	Tests: 67 12 58 78 68 (Sum = 283)
+	Courses: 9 26 22 2 30 (Sum = 89)
+	Exams: 83 96 71 44 58 48 47 46 46 75 (Sum = 614)
+11. Qcccognh Stkpaodsoi
+	Tests: 33 83 56 66 37 (Sum = 275)
+	Courses: 66 25 8 18 3 (Sum = 120)
+	Exams: 98 32 36 31 50 60 87 52 99 32 (Sum = 577)
+12. Rqelagfpsd Minbzlxy
+	Tests: 55 74 38 19 75 (Sum = 261)
+	Courses: 26 31 29 6 49 (Sum = 141)
+	Exams: 74 31 66 59 47 50 72 93 60 66 (Sum = 618)
+13. Ryhsl Bsdicmxmul
+	Tests: 36 20 46 73 21 (Sum = 196)
+	Courses: 61 57 94 78 6 (Sum = 296)
+	Exams: 68 33 53 100 68 34 45 61 44 94 (Sum = 600)
+14. Spspiuic Qazymp
+	Tests: 86 17 53 72 72 (Sum = 300)
+	Courses: 17 48 52 7 74 (Sum = 198)
+	Exams: 42 43 49 36 67 32 33 32 91 49 (Sum = 474)
+15. Unknown 
+	Tests: no ratings (Sum = 0)
+	Courses: no ratings (Sum = 0)
+	Exams: no ratings (Sum = 0)
+16. Xqbhtjy Bzrfir
+	Tests: 49 60 27 78 42 (Sum = 256)
+	Courses: 19 82 45 1 43 (Sum = 190)
+	Exams: 68 37 68 81 89 78 83 83 88 33 (Sum = 708)
+17. Zwoc Lijnezpwk
+	Tests: 78 34 2 81 7 (Sum = 202)
+	Courses: 86 45 58 48 24 (Sum = 261)
+	Exams: 45 36 71 88 49 32 51 37 79 72 (Sum = 560)
+
+"g2.editGroupData("Android 8", "Application Development", 1); g2.editStudentData(1, new Student("Petrov", "Petr", "Petrovich"));"
+Group: Android 8
+Specialization: Application Development
+Course: 1
+Students (with ratings):
+1. Ivanov Ivan
+	Tests: 100 99 56 (Sum = 255)
+	Courses: 50 60 (Sum = 110)
+	Exams: 100 24 65 (Sum = 189)
+2. Petrov Petr
+	Tests: no ratings (Sum = 0)
+	Courses: no ratings (Sum = 0)
+	Exams: no ratings (Sum = 0)
+
+"g2.transferStudent(g, 10);"
+Group: Unknown
+Specialization: Unknown
+Course: 0
+Students (with ratings):
+1. Alxzyjt Ervacjqk
+	Tests: 69 96 65 55 25 (Sum = 310)
+	Courses: 96 90 40 59 71 (Sum = 356)
+	Exams: 56 53 84 87 30 36 37 49 57 61 (Sum = 550)
+2. Cgph Krof
+	Tests: 71 53 50 45 91 (Sum = 310)
+	Courses: 29 13 10 73 16 (Sum = 141)
+	Exams: 84 61 66 46 50 47 60 86 61 58 (Sum = 619)
+3. Cvqajqz Hhlzhdoq
+	Tests: 11 95 74 11 29 (Sum = 220)
+	Courses: 81 21 53 45 63 (Sum = 263)
+	Exams: 55 30 69 56 60 54 53 94 47 73 (Sum = 591)
+4. Elsxtl Eouowive
+	Tests: 43 8 35 95 98 (Sum = 279)
+	Courses: 21 2 92 53 12 (Sum = 180)
+	Exams: 57 36 70 70 43 67 89 30 95 65 (Sum = 622)
+5. Hkcdylu Tngovdf
+	Tests: 86 37 39 17 55 (Sum = 234)
+	Courses: 30 71 87 69 17 (Sum = 274)
+	Exams: 59 100 99 83 46 71 85 41 30 49 (Sum = 663)
+6. Ivanov Ivan
+	Tests: 100 99 56 (Sum = 255)
+	Courses: 50 60 (Sum = 110)
+	Exams: 100 24 65 (Sum = 189)
+7. Jlnvaaikv Nzzdyzaij
+	Tests: 18 34 70 45 28 (Sum = 195)
+	Courses: 15 62 39 45 77 (Sum = 238)
+	Exams: 80 80 56 73 55 51 43 90 76 46 (Sum = 650)
+8. Nfulrcfy Oqzpmtk
+	Tests: 54 49 4 93 25 (Sum = 225)
+	Courses: 76 33 91 20 38 (Sum = 258)
+	Exams: 60 41 32 78 74 58 57 81 95 75 (Sum = 651)
+9. Ohwzuis Wujrw
+	Tests: 32 70 21 82 16 (Sum = 221)
+	Courses: 40 41 59 28 73 (Sum = 241)
+	Exams: 40 40 38 55 42 47 74 82 79 91 (Sum = 588)
+10. Onmhkc Xbxsgla
+	Tests: 67 12 58 78 68 (Sum = 283)
+	Courses: 9 26 22 2 30 (Sum = 89)
+	Exams: 83 96 71 44 58 48 47 46 46 75 (Sum = 614)
+11. Rqelagfpsd Minbzlxy
+	Tests: 55 74 38 19 75 (Sum = 261)
+	Courses: 26 31 29 6 49 (Sum = 141)
+	Exams: 74 31 66 59 47 50 72 93 60 66 (Sum = 618)
+12. Ryhsl Bsdicmxmul
+	Tests: 36 20 46 73 21 (Sum = 196)
+	Courses: 61 57 94 78 6 (Sum = 296)
+	Exams: 68 33 53 100 68 34 45 61 44 94 (Sum = 600)
+13. Spspiuic Qazymp
+	Tests: 86 17 53 72 72 (Sum = 300)
+	Courses: 17 48 52 7 74 (Sum = 198)
+	Exams: 42 43 49 36 67 32 33 32 91 49 (Sum = 474)
+14. Unknown 
+	Tests: no ratings (Sum = 0)
+	Courses: no ratings (Sum = 0)
+	Exams: no ratings (Sum = 0)
+15. Xqbhtjy Bzrfir
+	Tests: 49 60 27 78 42 (Sum = 256)
+	Courses: 19 82 45 1 43 (Sum = 190)
+	Exams: 68 37 68 81 89 78 83 83 88 33 (Sum = 708)
+16. Zwoc Lijnezpwk
+	Tests: 78 34 2 81 7 (Sum = 202)
+	Courses: 86 45 58 48 24 (Sum = 261)
+	Exams: 45 36 71 88 49 32 51 37 79 72 (Sum = 560)
+
+Group: Android 8
+Specialization: Application Development
+Course: 1
+Students (with ratings):
+1. Ivanov Ivan
+	Tests: 100 99 56 (Sum = 255)
+	Courses: 50 60 (Sum = 110)
+	Exams: 100 24 65 (Sum = 189)
+2. Petrov Petr
+	Tests: no ratings (Sum = 0)
+	Courses: no ratings (Sum = 0)
+	Exams: no ratings (Sum = 0)
+3. Qcccognh Stkpaodsoi
+	Tests: 33 83 56 66 37 (Sum = 275)
+	Courses: 66 25 8 18 3 (Sum = 120)
+	Exams: 98 32 36 31 50 60 87 52 99 32 (Sum = 577)
+
+"g.excludeStudentBySession(33)"
+Group: Unknown
+Specialization: Unknown
+Course: 0
+Students (with ratings):
+1. Cgph Krof
+	Tests: 71 53 50 45 91 (Sum = 310)
+	Courses: 29 13 10 73 16 (Sum = 141)
+	Exams: 84 61 66 46 50 47 60 86 61 58 (Sum = 619)
+2. Jlnvaaikv Nzzdyzaij
+	Tests: 18 34 70 45 28 (Sum = 195)
+	Courses: 15 62 39 45 77 (Sum = 238)
+	Exams: 80 80 56 73 55 51 43 90 76 46 (Sum = 650)
+3. Ohwzuis Wujrw
+	Tests: 32 70 21 82 16 (Sum = 221)
+	Courses: 40 41 59 28 73 (Sum = 241)
+	Exams: 40 40 38 55 42 47 74 82 79 91 (Sum = 588)
+4. Onmhkc Xbxsgla
+	Tests: 67 12 58 78 68 (Sum = 283)
+	Courses: 9 26 22 2 30 (Sum = 89)
+	Exams: 83 96 71 44 58 48 47 46 46 75 (Sum = 614)
+5. Ryhsl Bsdicmxmul
+	Tests: 36 20 46 73 21 (Sum = 196)
+	Courses: 61 57 94 78 6 (Sum = 296)
+	Exams: 68 33 53 100 68 34 45 61 44 94 (Sum = 600)
+6. Xqbhtjy Bzrfir
+	Tests: 49 60 27 78 42 (Sum = 256)
+	Courses: 19 82 45 1 43 (Sum = 190)
+	Exams: 68 37 68 81 89 78 83 83 88 33 (Sum = 708)
+
+"g.excludeByPoorProgress()"
+Group: Unknown
+Specialization: Unknown
+Course: 0
+Students (with ratings):
+1. Cgph Krof
+	Tests: 71 53 50 45 91 (Sum = 310)
+	Courses: 29 13 10 73 16 (Sum = 141)
+	Exams: 84 61 66 46 50 47 60 86 61 58 (Sum = 619)
+2. Jlnvaaikv Nzzdyzaij
+	Tests: 18 34 70 45 28 (Sum = 195)
+	Courses: 15 62 39 45 77 (Sum = 238)
+	Exams: 80 80 56 73 55 51 43 90 76 46 (Sum = 650)
+3. Ohwzuis Wujrw
+	Tests: 32 70 21 82 16 (Sum = 221)
+	Courses: 40 41 59 28 73 (Sum = 241)
+	Exams: 40 40 38 55 42 47 74 82 79 91 (Sum = 588)
+4. Ryhsl Bsdicmxmul
+	Tests: 36 20 46 73 21 (Sum = 196)
+	Courses: 61 57 94 78 6 (Sum = 296)
+	Exams: 68 33 53 100 68 34 45 61 44 94 (Sum = 600)
+5. Xqbhtjy Bzrfir
+	Tests: 49 60 27 78 42 (Sum = 256)
+	Courses: 19 82 45 1 43 (Sum = 190)
+	Exams: 68 37 68 81 89 78 83 83 88 33 (Sum = 708)
+
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
