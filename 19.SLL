@@ -1,0 +1,485 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication19;
+
+import java.util.Arrays;
+
+/**
+ *
+ * @author Oyla
+ */
+class SinglyLinkedList {
+
+    class Node {
+
+        int data;
+        Node next;
+    }
+
+    private Node head;
+    private Node tail;
+    private int count;
+
+    public void addHead(int data) {
+        Node newElem = new Node();
+        newElem.data = data;
+        newElem.next = head;
+        if (head == null) {
+            tail = newElem;
+        }
+        head = newElem;
+        count++;
+    }
+
+    public void addTail(int data) {
+        Node newElem = new Node();
+        newElem.data = data;
+        if (tail == null) {
+            head = newElem;
+        } else {
+            tail.next = newElem;
+        }
+        tail = newElem;
+        count++;
+    }
+
+    public void insert(int data, int position) {
+        if (position >= count) {
+            addTail(data);
+            return;
+        } else if (position <= 0) {
+            addHead(data);
+            return;
+        }
+
+        Node newElem = new Node();
+        newElem.data = data;
+        int i = 1;
+        Node beforeNew = head;
+        while (i++ != position) {
+            beforeNew = beforeNew.next;
+        }
+        newElem.next = beforeNew.next;
+        beforeNew.next = newElem;
+
+        count++;
+    }
+
+    public void delHead() {
+        if (isEmpty()) {
+            return;
+        }
+        head = head.next;
+        count--;
+        if (head == null) {
+            tail = null;
+        }
+    }
+
+    public void delTail() {
+        if (isEmpty()) {
+            return;
+        }
+        del(count - 1);
+    }
+
+    public void del(int position) {
+        if (position <= 0) {
+            delHead();
+            return;
+        }
+
+        if (position >= count) {
+            position = count - 1;
+        }
+
+        int i = 1;
+        Node beforeDel = head;
+        while (i++ != position) {
+            beforeDel = beforeDel.next;
+        }
+        Node sacrifice = beforeDel.next;
+        beforeDel.next = sacrifice.next;
+        count--;
+        if (beforeDel.next == null) {
+            tail = beforeDel;
+        }
+    }
+
+    public void clear() {
+        while (head != null) {
+            delHead();
+        }
+    }
+
+    public void print() {
+        if (isEmpty()) {
+            System.out.println("Список пуст!");
+            return;
+        }
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public int indexOf(int data) {
+        if (isEmpty()) {
+            return -1;
+        }
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            if (data == temp.data) {
+                return i;
+            }
+            i++;
+            temp = temp.next;
+        }
+
+        return -1;
+    }
+
+    public int lastIndexOf(int data) {
+        int lastIndex = -1;
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            if (data == temp.data) {
+                lastIndex = i;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return lastIndex;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public void reverse() {
+        int i = 0;
+        int j;
+        Node temp = head;
+        while (i < count - 1) {
+            j = count - i;
+            insert(temp.data, j);
+            delHead();
+            i++;
+            temp = temp.next;
+        }
+    }
+
+    public void sortAsc() {
+        sort(1);
+    }
+
+    public void sortDesc() {
+        sort(-1);
+    }
+
+    private void sort(int order) {
+        int i = 0;
+        int j;
+        Node temp = head;
+        Node temp2;
+        int dataTemp1;
+        int dataTemp2;
+        int minIndex;
+        while (i < count - 1) {
+            dataTemp1 = temp.data;
+            minIndex = i;
+            j = i + 1;
+            temp2 = temp.next;
+            while (j < count) {
+                dataTemp2 = temp2.data;
+                if ((order < 0 && dataTemp1 < dataTemp2) || (order > 0 && dataTemp1 > dataTemp2)) {
+                    dataTemp1 = dataTemp2;
+                    minIndex = j;
+                }
+                j++;
+                temp2 = temp2.next;
+            }
+            if (minIndex != i) {
+                setAt(temp.data, minIndex);
+                temp.data = dataTemp1;
+            }
+            i++;
+            temp = temp.next;
+        }
+    }
+
+    public void shuffle() {
+        int i = 0;
+        int j;
+        int rand;
+        Node temp = head;
+        Node temp2;
+        int dataTemp1;
+        int dataTemp2;
+        while (i < count) {
+            rand = (int) (Math.random() * (count - i) + i);
+            dataTemp1 = temp.data;
+            if (i != rand) {
+                j = 0;
+                temp2 = head;
+                while (j < rand) {
+                    j++;
+                    temp2 = temp2.next;
+                }
+                dataTemp2 = temp2.data;
+                setAt(dataTemp1, rand);
+                temp.data = dataTemp2;
+            }
+            i++;
+            temp = temp.next;
+        }
+    }
+
+    public boolean equals(SinglyLinkedList s) {
+        if (count == s.getCount()) {
+            Node temp = head;
+            Node tempS = s.head;
+            int i = 0;
+            while (i < count) {
+                if (temp.data != tempS.data) {
+                    return false;
+                }
+                i++;
+                temp = temp.next;
+                tempS = tempS.next;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public SinglyLinkedList clone() {
+        SinglyLinkedList s = new SinglyLinkedList();
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            s.addTail(temp.data);
+            i++;
+            temp = temp.next;
+        }
+        return s;
+    }
+
+    public boolean contains(int data) {
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            if (temp.data == data) {
+                return true;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return false;
+    }
+
+    public void setAt(int data, int index) {
+        if (index >= 0 && index < count) {
+            Node temp = head;
+            if (index == count - 1) {
+                temp = tail;
+            } else {
+                int i = 0;
+                while (i < index) {
+                    i++;
+                    temp = temp.next;
+                }
+            }
+            temp.data = data;
+        }
+    }
+
+    public int[] toArray() {
+        int[] arr = new int[count];
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            arr[i] = temp.data;
+            i++;
+            temp = temp.next;
+        }
+        return arr;
+    }
+
+    public void mergeWith(SinglyLinkedList list) {
+        Node temp = list.head;
+        int i = 0;
+        while (i < list.count) {
+            addTail(temp.data);
+            i++;
+            temp = temp.next;
+        }
+    }
+}
+
+public class JavaApplication19 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        SinglyLinkedList sll = new SinglyLinkedList();
+
+        // вставка в конец списка
+        sll.addTail(10);
+        sll.addTail(20);
+        sll.addTail(30);
+        sll.addTail(40);
+        // sll.print();
+
+        // вставка в начало списка
+        sll.addHead(50);
+        sll.addHead(60);
+        sll.addHead(70);
+        sll.addHead(80);
+        //  sll.print();
+
+        // метод возвращает true, если count = 0, и false в обратном случае
+        System.out.println("\"sll.isEmpty()\"");
+        if (sll.isEmpty()) {
+            System.out.println("SLL is empty");
+        } else {
+            System.out.println("SLL is not empty");
+        }
+        sll.print();
+        System.out.println("");
+
+        // количество элементов, поиск элементов
+        System.out.println("count: " + sll.getCount());
+        System.out.println("index of 70: " + sll.indexOf(70) + ", index of 90: " + sll.indexOf(90));
+        System.out.println("last index of 70: " + sll.lastIndexOf(70) + ", last index of 90: " + sll.lastIndexOf(90));
+        System.out.println("");
+
+        // изменение порядка следования элементов
+        System.out.println("\"sll.reverse()\"");
+        sll.reverse();
+        sll.print();
+        System.out.println("");
+
+        // сортировка значений элементов списка по возрастанию
+        System.out.println("\"sll.sortAsc()\"");
+        sll.sortAsc();
+        sll.print();
+        System.out.println("");
+
+        // сортировка значений элементов списка по убыванию
+        System.out.println("\"sll.sortDesc()\"");
+        sll.sortDesc();
+        sll.print();
+        System.out.println("");
+
+        // метод создаёт точную копию односвязного списка и возвращает ссылку на эту копию
+        System.out.println("\"SinglyLinkedList sllClone = sll.clone()\"");
+        SinglyLinkedList sllClone = sll.clone();
+        sllClone.print();
+        System.out.println("");
+
+        // метод сравнивает списки
+        System.out.println("\"sll.equals(sllClone)\"");
+        if (sll.equals(sllClone)) {
+            System.out.println("SLL are equal");
+        } else {
+            System.out.println("SLL are not equal");
+        }
+        System.out.println("");
+
+        // случайное перемешивание элементов списка
+        System.out.println("\"sll.shuffle()\"");
+        sll.shuffle();
+        sll.print();
+        if (sll.equals(sllClone)) {
+            System.out.println("SLL are equal");
+        } else {
+            System.out.println("SLL are not equal");
+        }
+        System.out.println("");
+
+        // есть ли в списке переданное в качестве параметра значение
+        System.out.println("\"sll.contains(varContains)\"");
+        int varContains = 50;
+        if (sll.contains(varContains)) {
+            System.out.println("SLL contains " + varContains);
+        } else {
+            System.out.println("SLL doesn't contain " + varContains);
+        }
+        System.out.println("");
+
+        // метод устанавливает новое значение для элемента по указанному индексу
+        System.out.println("\"sll.setAt(1000, 5);\"");
+        sll.setAt(1000, 5);
+        sll.print();
+        System.out.println("");
+
+        // метод создаёт точную копию односвязного списка и возвращает ссылку на эту копию с типом int[]
+        System.out.println("\"Arrays.toString(sll.toArray())\"");
+        System.out.println(Arrays.toString(sll.toArray()));
+        System.out.println("");
+
+        // метод присоединяет в конец текущего списка все элементы другого списка
+        System.out.println("\"sll.mergeWith(sllClone)\"");
+        sll.mergeWith(sllClone);
+        sll.print();
+
+        sll.setAt(2222, 0);
+        sll.setAt(3333, sll.getCount() - 1);
+        sll.print();
+    }
+
+}
+
+run:
+"sll.isEmpty()"
+SLL is not empty
+80 70 60 50 10 20 30 40 
+
+count: 8
+index of 70: 1, index of 90: -1
+last index of 70: 1, last index of 90: -1
+
+"sll.reverse()"
+40 30 20 10 50 60 70 80 
+
+"sll.sortAsc()"
+10 20 30 40 50 60 70 80 
+
+"sll.sortDesc()"
+80 70 60 50 40 30 20 10 
+
+"SinglyLinkedList sllClone = sll.clone()"
+80 70 60 50 40 30 20 10 
+
+"sll.equals(sllClone)"
+SLL are equal
+
+"sll.shuffle()"
+80 10 40 70 30 50 20 60 
+SLL are not equal
+
+"sll.contains(varContains)"
+SLL contains 50
+
+"sll.setAt(1000, 5);"
+80 10 40 70 30 1000 20 60 
+
+"Arrays.toString(sll.toArray())"
+[80, 10, 40, 70, 30, 1000, 20, 60]
+
+"sll.mergeWith(sllClone)"
+80 10 40 70 30 1000 20 60 80 70 60 50 40 30 20 10  
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
