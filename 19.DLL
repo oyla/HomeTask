@@ -1,0 +1,507 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication19_2;
+
+import java.util.Arrays;
+
+/**
+ *
+ * @author Oyla
+ */
+class DoublyLinkedList {
+
+    class Node {
+
+        int data;
+        Node next;
+        Node prev;
+    }
+
+    private Node head;
+    private Node tail;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void clear() {
+        head = tail = null;
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void addHead(int data) {
+        Node temp = new Node();
+        temp.data = data;
+        temp.next = head;
+        if (isEmpty()) {
+            tail = temp;
+        } else {
+            head.prev = temp;
+        }
+        head = temp;
+        count++;
+    }
+
+    public void addTail(int data) {
+        Node temp = new Node();
+        temp.data = data;
+        temp.prev = tail;
+        if (isEmpty()) {
+            head = temp;
+        } else {
+            tail.next = temp;
+        }
+        tail = temp;
+        count++;
+    }
+
+    private Node getNode(int pos) {
+        if (pos < 0 || pos >= count) {
+            return null;
+        }
+        if (pos == 0) {
+            return head;
+        }
+        if (pos == count - 1) {
+            return tail;
+        }
+
+        Node temp;
+        int i = pos;
+        if (pos <= count / 2) {
+            temp = head.next;
+            while (--i != 0) {
+                temp = temp.next;
+            }
+        } else {
+            temp = tail.prev;
+            while (++i != count - 1) {
+                temp = temp.prev;
+            }
+        }
+        return temp;
+    }
+
+    public void insert(int data, int position) {
+        if (position <= 0) {
+            addHead(data);
+            return;
+        }
+        if (position >= count) {
+            addTail(data);
+            return;
+        }
+
+        Node elem = getNode(position);
+        Node temp = new Node();
+        temp.data = data;
+        temp.next = elem;
+        temp.prev = elem.prev;
+        temp.prev.next = temp;
+        temp.next.prev = temp;
+        count++;
+    }
+
+    public void delHead() {
+        if (isEmpty()) {
+            return;
+        }
+        head = head.next;
+        if (head == null) {
+            tail = null;
+        } else {
+            head.prev = null;
+        }
+        count--;
+    }
+
+    public void delTail() {
+        if (isEmpty()) {
+            return;
+        }
+        tail = tail.prev;
+        if (tail == null) {
+            head = null;
+        } else {
+            tail.next = null;
+        }
+        count--;
+    }
+
+    public void delete(int position) {
+        if (position == 0) {
+            delHead();
+            return;
+        }
+        if (position == count - 1) {
+            delTail();
+            return;
+        }
+        Node sacrifice = getNode(position);
+        sacrifice.prev.next = sacrifice.next;
+        sacrifice.next.prev = sacrifice.prev;
+        // sacrifice.next = sacrifice.prev = null;
+        count--;
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) {
+            return "Список пуст!";
+        }
+        StringBuilder result = new StringBuilder();
+        Node temp = head;
+        while (temp != null) {
+            result.append(temp.data).append(" ");
+            temp = temp.next;
+        }
+        return result.toString();
+    }
+
+    public int indexOf(int data) {
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            if (data == temp.data) {
+                return i;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return -1;
+    }
+
+    public int lastIndexOf(int data) {
+        Node temp = tail;
+        int i = count - 1;
+        while (i >= 0) {
+            if (data == temp.data) {
+                return i;
+            }
+            i--;
+            temp = temp.prev;
+        }
+        return -1;
+    }
+
+    public void reverse() {
+        int i = 0;
+        Node temp1 = head;
+        Node temp2 = tail;
+        while (i < count / 2) {
+            int data = temp1.data;
+            temp1.data = temp2.data;
+            temp2.data = data;
+            i++;
+            temp1 = temp1.next;
+            temp2 = temp2.prev;
+        }
+    }
+
+    public void sortAsc() {
+        sort(1);
+    }
+
+    public void sortDesc() {
+        sort(-1);
+    }
+
+    private void sort(int order) {
+        int i = 0;
+        int j;
+        Node temp = head;
+        Node temp2;
+        int dataTemp1;
+        int dataTemp2;
+        int minIndex;
+        while (i < count - 1) {
+            dataTemp1 = temp.data;
+            minIndex = i;
+            j = i + 1;
+            temp2 = temp.next;
+            while (j < count) {
+                dataTemp2 = temp2.data;
+                if ((order < 0 && dataTemp1 < dataTemp2) || (order > 0 && dataTemp1 > dataTemp2)) {
+                    dataTemp1 = dataTemp2;
+                    minIndex = j;
+                }
+                j++;
+                temp2 = temp2.next;
+            }
+            if (minIndex != i) {
+                setAt(temp.data, minIndex);
+                temp.data = dataTemp1;
+            }
+            i++;
+            temp = temp.next;
+        }
+    }
+
+    public void shuffle() {
+        int i = 0;
+        int j;
+        int rand;
+        Node temp = head;
+        Node temp2;
+        int dataTemp1;
+        int dataTemp2;
+        while (i < count) {
+            rand = (int) (Math.random() * (count - i) + i);
+            dataTemp1 = temp.data;
+            if (i != rand) {
+                j = 0;
+                temp2 = head;
+                while (j < rand) {
+                    j++;
+                    temp2 = temp2.next;
+                }
+                dataTemp2 = temp2.data;
+                setAt(dataTemp1, rand);
+                temp.data = dataTemp2;
+            }
+            i++;
+            temp = temp.next;
+        }
+    }
+
+    public boolean equals(DoublyLinkedList d) {
+        if (count == d.getCount()) {
+            Node temp = head;
+            Node tempD = d.head;
+            int i = 0;
+            while (i < count) {
+                if (temp.data != tempD.data) {
+                    return false;
+                }
+                i++;
+                temp = temp.next;
+                tempD = tempD.next;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public DoublyLinkedList clone() {
+        DoublyLinkedList d = new DoublyLinkedList();
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            d.addTail(temp.data);
+            i++;
+            temp = temp.next;
+        }
+        return d;
+    }
+
+    public boolean contains(int data) {
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            if (temp.data == data) {
+                return true;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return false;
+    }
+
+    public void setAt(int data, int index) {
+        int middle = count / 2;
+        if (index >= 0 && index <= middle) {
+            Node temp = head;
+            int i = 0;
+            while (i < index) {
+                i++;
+                temp = temp.next;
+            }
+            temp.data = data;
+        } else if (index < count && index > middle) {
+            Node temp = tail;
+            int i = count - 1;
+            while (i > index) {
+                i--;
+                temp = temp.prev;
+            }
+            temp.data = data;
+
+        }
+    }
+
+    public int[] toArray() {
+        int[] arr = new int[count];
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            arr[i] = temp.data;
+            i++;
+            temp = temp.next;
+        }
+        return arr;
+    }
+
+    public void mergeWith(DoublyLinkedList list) {
+        Node temp = list.head;
+        int i = 0;
+        while (i < list.count) {
+            addTail(temp.data);
+            i++;
+            temp = temp.next;
+        }
+    }
+}
+
+class JavaApplication19_2 {
+
+    public static void main(String[] args) {
+
+        DoublyLinkedList dll = new DoublyLinkedList();
+        System.out.println(dll);
+
+        dll.addTail(10);
+        dll.addTail(20);
+        dll.addTail(30);
+        dll.addTail(40);
+        System.out.println(dll);
+
+        dll.addHead(50);
+        dll.addHead(60);
+        dll.addHead(70);
+        dll.addHead(80);
+        dll.addHead(90);
+        System.out.println(dll);
+
+        dll.insert(0, 7);
+        dll.insert(0, 5);
+        dll.insert(0, 3);
+        dll.insert(0, 1);
+        System.out.println(dll);
+
+        dll.delete(1);
+        dll.delete(3);
+        dll.delete(5);
+        dll.delete(7);
+        System.out.println(dll);
+
+        dll.addHead(1000);
+        dll.addTail(1000);
+        System.out.println(dll);
+
+        System.out.println("");
+        System.out.println("indexOf(1000) = " + dll.indexOf(1000));
+        System.out.println("lastIndexOf(1000) = " + dll.lastIndexOf(1000));
+        System.out.println("");
+
+        System.out.println("\"dll.reverse()\"");
+        dll.reverse();
+        System.out.println(dll);
+        System.out.println("");
+
+        System.out.println("\"dll.sortAsc()\"");
+        dll.sortAsc();
+        System.out.println(dll);
+        System.out.println("");
+
+        System.out.println("\"dll.sortDesc()\"");
+        dll.sortDesc();
+        System.out.println(dll);
+        System.out.println("");
+
+        System.out.println("\"DoublyLinkedList dllClone = dll.clone()\"");
+        DoublyLinkedList dllClone = dll.clone();
+        System.out.println(dllClone);
+        System.out.println("");
+
+        System.out.println("\"dll.equals(dllClone)\"");
+        if (dll.equals(dllClone)) {
+            System.out.println("DLL are equal");
+        } else {
+            System.out.println("DLL are not equal");
+        }
+        System.out.println("");
+
+        System.out.println("\"dllClone.shuffle()\"");
+        dllClone.shuffle();
+        System.out.println(dllClone);
+        System.out.println("");
+
+        System.out.println("\"dll.equals(dllClone)\"");
+        if (dll.equals(dllClone)) {
+            System.out.println("DLL are equal");
+        } else {
+            System.out.println("DLL are not equal");
+        }
+        System.out.println("");
+
+        System.out.println("\"dll.contains(varContains)\"");
+        int varContains = 50;
+        if (dll.contains(varContains)) {
+            System.out.println("SLL contains " + varContains);
+        } else {
+            System.out.println("SLL doesn't contain " + varContains);
+        }
+        System.out.println("");
+
+        System.out.println("\"dll.setAt(9999, 6)\"");
+        dll.setAt(9999, 6);
+        System.out.println(dll);
+        System.out.println("");
+
+        System.out.println("\"dll.mergeWith(dllClone)\"");
+        dll.mergeWith(dllClone);
+        System.out.println("\"Arrays.toString(dll.toArray())\"");
+        System.out.println(Arrays.toString(dll.toArray()));
+    }
+}
+
+run:
+Список пуст!
+10 20 30 40 
+90 80 70 60 50 10 20 30 40 
+90 0 80 70 0 60 50 0 10 20 0 30 40 
+90 80 70 60 50 10 20 30 40 
+1000 90 80 70 60 50 10 20 30 40 1000 
+
+indexOf(1000) = 0
+lastIndexOf(1000) = 10
+
+"dll.reverse()"
+1000 40 30 20 10 50 60 70 80 90 1000 
+
+"dll.sortAsc()"
+10 20 30 40 50 60 70 80 90 1000 1000 
+
+"dll.sortDesc()"
+1000 1000 90 80 70 60 50 40 30 20 10 
+
+"DoublyLinkedList dllClone = dll.clone()"
+1000 1000 90 80 70 60 50 40 30 20 10 
+
+"dll.equals(dllClone)"
+DLL are equal
+
+"dllClone.shuffle()"
+10 20 1000 1000 80 60 70 40 30 50 90 
+
+"dll.equals(dllClone)"
+DLL are not equal
+
+"dll.contains(varContains)"
+SLL contains 50
+
+"dll.setAt(9999, 6)"
+1000 1000 90 80 70 60 9999 40 30 20 10 
+
+"dll.mergeWith(dllClone)"
+"Arrays.toString(dll.toArray())"
+[1000, 1000, 90, 80, 70, 60, 9999, 40, 30, 20, 10, 10, 20, 1000, 1000, 80, 60, 70, 40, 30, 50, 90]
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
