@@ -1,0 +1,259 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication20;
+
+/**
+ *
+ * @author Oyla
+ */
+class SinglyLinkedList { // реализованных в классе методов достаточно для работы стека!
+
+    class Node {
+
+        int data;
+        Node next;
+    }
+
+    private Node head;
+    private Node tail;
+    private int count;
+
+    public void addHead(int data) {
+        Node newElem = new Node();
+        newElem.data = data;
+        newElem.next = head;
+        if (head == null) {
+            tail = newElem;
+        }
+        head = newElem;
+        count++;
+    }
+
+    // public void addTail(int data) {
+    // public void insert(int data, int position) {
+    public int delHead() {
+        if (count == 0) {
+            return -1;
+        }
+
+        int data = head.data;
+
+        head = head.next;
+        count--;
+        if (head == null) {
+            tail = null;
+        }
+        return data;
+    }
+
+    // public void delTail() {
+    // public void del(int position) {
+    public void clear() {
+        while (head != null) {
+            delHead();
+        }
+    }
+
+    // public void print() {
+    public int getCount() {
+        return count;
+    }
+
+    // public int indexOf(int data) {
+    public int getFirst() {
+        if (count > 0) {
+            return head.data;
+        }
+        return 0;
+    }
+
+    public boolean contains(int data) {
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            if (temp.data == data) {
+                return true;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return false;
+    }
+
+    public int[] toArray() {
+        int[] arr = new int[count];
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            arr[i] = temp.data;
+            i++;
+            temp = temp.next;
+        }
+        return arr;
+    }
+
+    @Override
+    public String toString() {
+        if (count == 0) {
+            return "List is empty!";
+        }
+        StringBuilder result = new StringBuilder();
+        Node temp = head;
+        while (temp != null) {
+            result.append(temp.data).append(" ");
+            temp = temp.next;
+        }
+        return result.toString();
+    }
+}
+
+////////////////////////////////////////////////////////
+class Stack {
+
+    private SinglyLinkedList data;
+
+    public Stack() {
+        data = new SinglyLinkedList();
+    }
+
+    public void clear() {
+        data.clear();
+    }
+
+    public boolean isEmpty() {
+        return this.getCount() == 0;
+    }
+
+    public int getCount() {
+        return data.getCount();
+    }
+
+    // заталкивание
+    public void push(int value) {
+        data.addHead(value);
+    }
+
+    // выталкивание
+    public int pop() {
+        return data.delHead();
+    }
+
+    // возвращает значение «верхнего» элемента стека
+    public int peek() {
+        return data.getFirst();
+    }
+
+    // проверяет, содержится ли некое значение целого типа в стеке
+    public boolean contains(int value) {
+        return data.contains(value);
+    }
+
+    // добавляет в стек элемент только в том случае, если его значение меньше, чем у «верхнего» элемента
+    public void pushLessValue(int value) {
+        if (value < data.getFirst()) {
+            push(value);
+        }
+    }
+
+    // добавляет в стек элемент только в том случае, если его значение уникально
+    public void pushUnique(int value) {
+        int[] list = data.toArray();
+        for (int el : list) {
+            if (el == value) {
+                return;
+            }
+        }
+        data.addHead(value);
+    }
+
+    @Override
+    public String toString() {
+        return data.toString();
+    }
+}
+
+////////////////////////////////////////////////////////
+class JavaApplication20 {
+
+    public static void main(String[] args) {
+
+        Stack st = new Stack();
+        st.push(10);
+        st.push(20);
+        st.push(30);
+        System.out.println("\"Stack st = new Stack(); st.push(10); st.push(20); st.push(30);\"");
+        System.out.println(st);
+        System.out.println("");
+
+        int value = 120;
+        if (st.contains(value)) {
+            System.out.println("Stack contains " + value);
+        } else {
+            System.out.println("Stack doesn't contain " + value);
+        }
+        System.out.println("");
+
+        System.out.println("st.pop() = " + st.pop());
+        System.out.println(st);
+        System.out.println("");
+        int temp = st.pop();
+        System.out.println("\"int temp = st.pop();\"");
+        System.out.println("temp = " + temp);
+        System.out.println(st);
+        System.out.println("");
+
+        System.out.println("\"st.pushLessValue(11)\"");
+        st.pushLessValue(11);
+        System.out.println("st.peek() = " + st.peek());
+        System.out.println(st);
+        System.out.println("");
+
+        System.out.println("\"st.pushLessValue(8)\"");
+        st.pushLessValue(8);
+        System.out.println("st.peek() = " + st.peek());
+        System.out.println(st);
+        System.out.println("");
+
+        System.out.println("\"st.pushUnique(10)\"");
+        st.pushUnique(10);
+        System.out.println(st);
+        System.out.println("");
+
+        System.out.println("\"st.pushUnique(99)\"");
+        st.pushUnique(99);
+        System.out.println(st);
+        System.out.println("");
+    }
+}
+
+run:
+"Stack st = new Stack(); st.push(10); st.push(20); st.push(30);"
+30 20 10 
+
+Stack doesn't contain 120
+
+st.pop() = 30
+20 10 
+
+"int temp = st.pop();"
+temp = 20
+10 
+
+"st.pushLessValue(11)"
+st.peek() = 10
+10 
+
+"st.pushLessValue(8)"
+st.peek() = 8
+8 10 
+
+"st.pushUnique(10)"
+8 10 
+
+"st.pushUnique(99)"
+99 8 10 
+
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
