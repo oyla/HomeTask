@@ -1,0 +1,170 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication20_2;
+
+/**
+ *
+ * @author Oyla
+ */
+class SinglyLinkedList {
+
+    class Node {
+
+        String data;
+        Node next;
+    }
+    private Node head;
+    private Node tail;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void addHead(String data) {
+        Node newElem = new Node();
+        newElem.data = data;
+        newElem.next = head;
+        if (head == null) {
+            tail = newElem;
+        }
+        head = newElem;
+        count++;
+    }
+
+    @Override
+    public String toString() {
+        if (count == 0) {
+            return "List is empty!";
+        }
+        StringBuilder result = new StringBuilder();
+        Node temp = head;
+        while (temp != null) {
+            result.append(temp.data).append(" ");
+            temp = temp.next;
+        }
+        return result.toString();
+    }
+
+    public String delHead() {
+        if (count == 0) {
+            return "";
+        }
+        String data = head.data;
+        head = head.next;
+        count--;
+        if (head == null) {
+            tail = null;
+        }
+        return data;
+    }
+
+    public String getFirst() {
+        if (count > 0) {
+            return head.data;
+        }
+        return "";
+    }
+}
+////////////////////////////////////////////////////////
+
+class Stack {
+
+    private SinglyLinkedList data;
+
+    public Stack() {
+        data = new SinglyLinkedList();
+    }
+
+    public boolean isEmpty() {
+        return this.getCount() == 0;
+    }
+
+    public int getCount() {
+        return data.getCount();
+    }
+
+    public void push(String value) {
+        data.addHead(value);
+    }
+
+    public String pop() {
+        return data.delHead();
+    }
+
+    public String peek() {
+        return data.getFirst();
+    }
+
+    @Override
+    public String toString() {
+        return data.toString();
+    }
+}
+
+class CorrectBracketsExpression {
+
+    private String text;
+    private static String[] bracketsOpen = {"(", "[", "{", "<"};
+    private static String[] bracketsClose = {")", "]", "}", ">"};
+    Stack listBrackets = new Stack();
+
+    public CorrectBracketsExpression(String text) {
+        this.text = text;
+        defineCorrectness();
+    }
+
+    public void defineCorrectness() {
+        String oneSymbol;
+        for (int i = 0; i < text.length(); i++) {
+            oneSymbol = text.substring(i, i + 1);
+            for (int j = 0; j < bracketsOpen.length; j++) {
+                if (oneSymbol.equals(bracketsOpen[j])) {
+                    listBrackets.push(oneSymbol);
+                }
+            }
+            for (int j = 0; j < bracketsClose.length; j++) {
+                if (oneSymbol.equals(bracketsClose[j]) && bracketsOpen[j].equals(listBrackets.peek())) {
+                    listBrackets.pop();
+                }
+            }
+        }
+    }
+
+    public String print() {
+        if (listBrackets.getCount() == 0) {
+            return "Expression correct.";
+        }
+        return "Expression does not correct.";
+    }
+
+}
+////////////////////////////////////////////////////////
+
+public class JavaApplication20_2 {
+
+    public static void main(String[] args) {
+        String text1 = "{(5-[3+<9>])-4}";
+        System.out.println(text1);
+        CorrectBracketsExpression expression1 = new CorrectBracketsExpression(text1);
+        System.out.println(expression1.print());
+        System.out.println("");
+
+        String text2 = "{(>5-<[3+)9]-4}";
+        System.out.println(text2);
+        CorrectBracketsExpression expression2 = new CorrectBracketsExpression(text2);
+        System.out.println(expression2.print());
+    }
+
+}
+
+run:
+{(5-[3+<9>])-4}
+Expression correct.
+
+{(>5-<[3+)9]-4}
+Expression does not correct.
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
