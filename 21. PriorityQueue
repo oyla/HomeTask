@@ -1,0 +1,140 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication21;
+
+import java.util.Random;
+
+/**
+ *
+ * @author user
+ */
+class PriorityQueue {
+
+    private int[] data;
+    private int[] priorities;
+    private int maxCount;
+    private int count = 0;
+
+    public PriorityQueue(int max) {
+        if (max < 10) {
+            max = 10;
+        }
+        maxCount = max;
+        data = new int[max];
+        priorities = new int[max];
+    }
+
+    public void clear() {
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public boolean isFull() {
+        return count == maxCount;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void enqueue(int value, int priority) {
+        if (!isFull()) {
+            if (isEmpty() || priority == 0) {
+                data[count] = value;
+                priorities[count] = priority;
+            } else {
+                int maxPriorityPosition = count;
+                while (maxPriorityPosition > 0 && priority > priorities[maxPriorityPosition - 1]) {
+                    maxPriorityPosition--;
+                }
+                for (int i = count; i > maxPriorityPosition; i--) {
+                    data[i] = data[i - 1];
+                    priorities[i] = priorities[i - 1];
+                }
+                data[maxPriorityPosition] = value;
+                priorities[maxPriorityPosition] = priority;
+            }
+            count++;
+        }
+    }
+
+    public int dequeue() {
+        if (!isEmpty()) {
+            int first = data[0];
+            for (int i = 1; i < count; i++) {
+                data[i - 1] = data[i];
+                priorities[i - 1] = priorities[i];
+            }
+            count--;
+            return first;
+        }
+        return -1;
+    }
+
+    public void print() {
+        System.out.println("=================================");
+        for (int i = 0; i < count; i++) {
+            System.out.println(data[i] + " with priority " + priorities[i]);
+        }
+        System.out.println("=================================\n");
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////
+class JavaApplication21 {
+
+    public static void main(String[] args) {
+        Random r = new Random();
+
+        PriorityQueue q = new PriorityQueue(20);
+
+        for (int i = 0; i < 7; i++) {
+            q.enqueue(r.nextInt(500), r.nextInt(10));
+        }
+        q.print();
+
+        for (int i = 0; i < 4; i++) {
+            q.dequeue();
+        }
+        q.print();
+
+        for (int i = 0; i < 3; i++) {
+            q.enqueue(r.nextInt(500), r.nextInt(10));
+        }
+        q.print();
+    }
+}
+
+run:
+=================================
+473 with priority 9
+320 with priority 9
+459 with priority 7
+455 with priority 6
+161 with priority 5
+464 with priority 3
+203 with priority 0
+=================================
+
+=================================
+161 with priority 5
+464 with priority 3
+203 with priority 0
+=================================
+
+=================================
+73 with priority 7
+161 with priority 5
+285 with priority 5
+485 with priority 4
+464 with priority 3
+203 with priority 0
+=================================
+
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
