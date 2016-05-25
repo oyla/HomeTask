@@ -1,0 +1,221 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication21_1;
+
+import java.util.Random;
+
+/**
+ *
+ * @author user
+ */
+class DoublyLinkedList {
+
+    class Node {
+
+        int data;
+        int priority;
+        Node next;
+        Node prev;
+    }
+
+    private Node head;
+    private Node tail;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void clear() {
+        head = tail = null;
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void addTail(int data, int priority) {
+        Node temp = new Node();
+        temp.data = data;
+        temp.priority = priority;
+        temp.prev = tail;
+        if (isEmpty()) {
+            head = temp;
+        } else {
+            tail.next = temp;
+        }
+        tail = temp;
+        count++;
+    }
+
+    public void addHead(int data, int priority) {
+        Node temp = new Node();
+        temp.data = data;
+        temp.priority = priority;
+        temp.next = head;
+        if (isEmpty()) {
+            tail = temp;
+        } else {
+            head.prev = temp;
+        }
+        head = temp;
+        count++;
+    }
+
+    public void insertWithPriority(int data, int priority) {
+        int i = 0;
+        if (isEmpty() || priority == 0) {
+            i = count;
+        } else {
+            Node temp = new Node();
+            temp.data = data;
+            temp.priority = priority;
+            Node elem = head;
+            while (i < count && priority <= elem.priority) {
+                i++;
+                elem = elem.next;
+            }
+            if (i > 0 && i < count) {
+                temp.next = elem;
+                temp.prev = elem.prev;
+                temp.prev.next = temp;
+                temp.next.prev = temp;
+                count++;
+            }
+        }
+        if (i == 0) {
+            addHead(data, priority);
+        } else if (i == count) {
+            addTail(data, priority);
+        }
+    }
+
+    public int delHead() {
+        if (isEmpty()) {
+            return -1;
+        }
+        int data = head.data;
+        head = head.next;
+        if (head == null) {
+            tail = null;
+        } else {
+            head.prev = null;
+        }
+        count--;
+        return data;
+    }
+
+    @Override
+    public String toString() {
+        if (count == 0) {
+            return "empty!";
+        }
+        StringBuilder result = new StringBuilder();
+        Node temp = head;
+        while (temp != null) {
+            result.append(temp.data + " with priority " + temp.priority).append("\n");
+            temp = temp.next;
+        }
+        return result.toString();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+class Queue {
+
+    private DoublyLinkedList data;
+
+    public Queue() {
+        data = new DoublyLinkedList();
+    }
+
+    public void clear() {
+        data.clear();
+    }
+
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+
+    public int getCount() {
+        return data.getCount();
+    }
+
+    public void enqueue(int value, int priority) {
+        data.insertWithPriority(value, priority);
+    }
+
+    public int dequeue() {
+        if (!isEmpty()) {
+            return data.delHead();
+        } else {
+            return -1;
+        }
+    }
+
+    public void print() {
+        System.out.println("==================================");
+        System.out.print(data.toString());
+        System.out.println("\n==================================");
+    }
+}
+
+public class JavaApplication21_1 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Random r = new Random();
+
+        Queue q = new Queue();
+
+        for (int i = 0; i < 7; i++) {
+            q.enqueue(r.nextInt(500), r.nextInt(10));
+        }
+        q.print();
+
+        for (int i = 0; i < 4; i++) {
+            q.dequeue();
+        }
+        q.print();
+
+        for (int i = 0; i < 3; i++) {
+            q.enqueue(r.nextInt(500), r.nextInt(10));
+        }
+        q.print();
+    }
+
+}
+
+run:
+==================================
+403 with priority 9
+323 with priority 9
+303 with priority 7
+390 with priority 6
+121 with priority 6
+345 with priority 3
+100 with priority 0
+
+==================================
+==================================
+121 with priority 6
+345 with priority 3
+100 with priority 0
+
+==================================
+==================================
+121 with priority 6
+380 with priority 6
+476 with priority 5
+345 with priority 3
+259 with priority 2
+100 with priority 0
+
+==================================
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
