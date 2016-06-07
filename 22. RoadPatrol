@@ -1,0 +1,515 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication22_1;
+
+/**
+ *
+ * @author user
+ */
+class ViolationList {
+
+    class Violation {
+
+        private int item;
+        private String offense;
+        private int punishment;
+        Violation prev;
+        Violation next;
+
+        Violation(int item, String offense, int punishment) {
+            setItem(item);
+            setOffense(offense);
+            setPunishment(punishment);
+        }
+
+        /**
+         * @return the item
+         */
+        public int getItem() {
+            return item;
+        }
+
+        /**
+         * @return the offense
+         */
+        public String getOffense() {
+            return offense;
+        }
+
+        /**
+         * @return the punishment
+         */
+        public int getPunishment() {
+            return punishment;
+        }
+
+        /**
+         * @param item the item to set
+         */
+        public void setItem(int item) {
+            this.item = item;
+        }
+
+        /**
+         * @param offense the offense to set
+         */
+        public void setOffense(String offense) {
+            this.offense = offense;
+        }
+
+        /**
+         * @param punishment the punishment to set
+         */
+        public void setPunishment(int punishment) {
+            this.punishment = punishment;
+        }
+
+        public Violation getNext() {
+            return next;
+        }
+
+        @Override
+        public String toString() {
+            String s = String.format("%4s", "#" + item) + " ";
+            s += String.format("%-11s", offense);
+            s += String.format("%9s", punishment) + "grn.";
+            return s;
+        }
+    }
+    private Violation head;
+    private Violation tail;
+    private int count;
+
+    ViolationList() {
+
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void clear() {
+        head = null;
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void addTail(int item, String offense, int punishment) {
+        Violation temp = new Violation(item, offense, punishment);
+        temp.prev = tail;
+        if (isEmpty()) {
+            head = temp;
+        } else {
+            tail.next = temp;
+        }
+        tail = temp;
+        count++;
+    }
+
+    public void addHead(int item, String offense, int punishment) {
+        Violation temp = new Violation(item, offense, punishment);
+        temp.next = head;
+        if (isEmpty()) {
+            tail = temp;
+        } else {
+            head.prev = temp;
+        }
+        head = temp;
+        count++;
+    }
+
+    public void addWithSort(int item, String offense, int punishment) {
+        int i = 0;
+        if (!isEmpty()) {
+            Violation temp = new Violation(item, offense, punishment);
+            Violation elem = head;
+            while (i < count && item > elem.getItem()) {
+                i++;
+                elem = elem.next;
+            }
+            if (i > 0 && i < count) {
+                temp.next = elem;
+                temp.prev = elem.prev;
+                temp.prev.next = temp;
+                temp.next.prev = temp;
+                count++;
+            }
+        }
+        if (i == 0) {
+            addHead(item, offense, punishment);
+        } else if (i == count) {
+            addTail(item, offense, punishment);
+        }
+    }
+
+    public String findItem(int item) {
+        String s = null;
+        Violation temp = head;
+        int i = 0;
+        while (i < count) {
+            if (temp.getItem() == item) {
+                s = "#" + temp.getItem() + " " + temp.getOffense();
+            }
+            i++;
+            temp = temp.next;
+        }
+        return s;
+    }
+
+    public ViolationList clone() {
+        ViolationList newVl = new ViolationList();
+        Violation temp = head;
+        int i = 0;
+        while (i < count) {
+            newVl.addTail(temp.getItem(), temp.getOffense(), temp.getPunishment());
+            i++;
+            temp = temp.next;
+        }
+        return newVl;
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        Violation temp = head;
+        int i = 0;
+        while (i < count) {
+            s += temp.toString() + "\n";
+            i++;
+            temp = temp.next;
+        }
+        s += "-----------------------------\n";
+        return s;
+    }
+}
+
+class RoadPatrol {
+
+    class CarInfo {
+
+        private String carNumber;
+        private ViolationList vl = new ViolationList();
+        private CarInfo parent;
+        private CarInfo right;
+        private CarInfo left;
+
+        CarInfo(String carNumber, int item, String offense, int punishment) {
+            setCarNumber(carNumber);
+            addViolation(item, offense, punishment);
+        }
+
+        /**
+         * @return the carNumber
+         */
+        public String getCarNumber() {
+            return carNumber;
+        }
+
+        /**
+         * @return the vl
+         */
+        public ViolationList getVl() {
+            return vl.clone();
+        }
+
+        /**
+         * @param carNumber the carNumber to set
+         */
+        public void setCarNumber(String carNumber) {
+            this.carNumber = carNumber;
+        }
+
+        public void setVl(ViolationList vl) {
+            this.vl = vl.clone();
+        }
+
+        public void addViolation(int item, String offense, int punishment) {
+            vl.addWithSort(item, offense, punishment);
+        }
+
+        public String findCarItem(int item) {
+            return vl.findItem(item);
+        }
+
+        @Override
+        public String toString() {
+            String s = "Car Number             " + carNumber + "\n";
+            s += "-----------------------------\n";
+            s += vl.toString();
+            return s + "\n";
+        }
+    }
+    private CarInfo root;
+
+    public RoadPatrol() {
+
+    }
+
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    public CarInfo getRoot() {
+        return root;
+    }
+
+    public int getCount() {
+        int count = 0;
+        count = getCount(root, count);
+        return count;
+    }
+
+    private int getCount(CarInfo elem, int count) {
+        if (elem != null) {
+            count = getCount(elem.left, count);
+            count++;
+            count = getCount(elem.right, count);
+        }
+        return count;
+    }
+
+    public void clear() {
+        if (!isEmpty()) {
+            clear(root);
+        }
+    }
+
+    private void clear(CarInfo elem) {
+        if (elem != null) {
+            clear(elem.left);
+            clear(elem.right);
+            elem = null;
+        }
+    }
+
+    public CarInfo findCarInfo(String carNumber) {
+        if (isEmpty()) {
+            return null;
+        } else {
+            CarInfo temp = root;
+            while (true) {
+                if (RandomValues.compareSymbols(carNumber, temp.getCarNumber()) == -1) {
+                    if (temp.left != null) {
+                        temp = temp.left;
+                    } else {
+                        break;
+                    }
+                } else if (RandomValues.compareSymbols(carNumber, temp.getCarNumber()) == 1) {
+                    if (temp.right != null) {
+                        temp = temp.right;
+                    } else {
+                        break;
+                    }
+                } else {
+                    return temp;
+                }
+            }
+            return null;
+        }
+    }
+
+    public void addCarInfo(String carNumber, int item, String offense, int punishment) {
+        CarInfo existingCar = findCarInfo(carNumber);
+        if (existingCar != null) {
+            existingCar.addViolation(item, offense, punishment);
+        } else {
+            CarInfo newCar = new CarInfo(carNumber, item, offense, punishment);
+            newCar.right = newCar.left = null;
+            CarInfo parent = null;
+            if (isEmpty()) {
+                root = newCar;
+                root.parent = parent;
+            } else {
+                CarInfo temp = root;
+                while (temp != null) {
+                    parent = temp;
+                    if (RandomValues.compareSymbols(carNumber, temp.getCarNumber()) == 1) {
+                        temp = temp.right;
+                    } else {
+                        temp = temp.left;
+                    }
+                }
+                if (RandomValues.compareSymbols(carNumber, parent.getCarNumber()) == -1) {
+                    parent.left = newCar;
+                } else {
+                    parent.right = newCar;
+                }
+                newCar.parent = parent;
+            }
+        }
+    }
+
+    public void showCarsByItem(int item) {
+        if (isEmpty()) {
+            System.out.println("Not found");
+        }
+        showCarsByItem(item, root);
+    }
+
+    private void showCarsByItem(int item, CarInfo temp) {
+        if (temp.findCarItem(item) != null) {
+            System.out.println("Car Number: " + temp.getCarNumber());
+        }
+        if (temp.left != null) {
+            showCarsByItem(item, temp.left);
+        }
+        if (temp.right != null) {
+            showCarsByItem(item, temp.right);
+        }
+    }
+
+    public void showItemInfo(int item) {
+        if (isEmpty()) {
+            System.out.println("Not found");
+        }
+        showItemInfo(item, root);
+    }
+
+    private void showItemInfo(int item, CarInfo temp) {
+        String s = temp.findCarItem(item);
+        if (s != null) {
+            System.out.println("Item Info: " + s);
+            return;
+        }
+        if (temp.left != null) {
+            showCarsByItem(item, temp.left);
+        }
+        if (temp.right != null) {
+            showCarsByItem(item, temp.right);
+        }
+    }
+
+    public void showRoadPatrol() {
+        showRoadPatrol(root);
+    }
+
+    private void showRoadPatrol(CarInfo elem) {
+        if (elem != null) {
+            showRoadPatrol(elem.left);
+            System.out.print(elem);
+            showRoadPatrol(elem.right);
+        }
+    }
+}
+
+final class RandomValues {
+
+    public static String generateText(int minSymbol, int maxSymbol, int min, int max) {
+        String s = "";
+        int c;
+        int lengthText = min + (int) (Math.random() * ((max - min) + 1));
+        for (int i = 0; i < lengthText; i++) {
+            c = (int) (Math.random() * (maxSymbol - minSymbol) + minSymbol);
+            s += (char) c;
+            if (i == 0) {
+                s = s.toUpperCase();
+            }
+        }
+        return s;
+    }
+
+    public static int generateNumber(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
+    public static int[] generateArrayNumbers(int min, int max, int count) {
+        int[] arrNums = new int[count];
+        for (int i = 0; i < count; i++) {
+            arrNums[i] = generateNumber(min, max);
+        }
+        return arrNums;
+    }
+
+    public static int compareSymbols(String s1, String s2) {
+        int index = 0;
+        while (s1.charAt(index) == s2.charAt(index)) {
+            if (index == s1.length() - 1 && s1.length() == s2.length()) {
+                return 0;
+            } else if (index == s1.length() - 1) {
+                return 1;
+            } else if (index == s2.length() - 1) {
+                return -1;
+            }
+            index++;
+        }
+        if (s1.charAt(index) > s2.charAt(index)) {
+            return 1;
+        }
+        return -1;
+    }
+}
+
+public class JavaApplication22_1 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        RoadPatrol rp = new RoadPatrol();
+        rp.addCarInfo("GY3786", 31, "Imhmzs", 1627);
+        rp.addCarInfo("UW9438", 66, "Nmzeu", 9572);
+        rp.addCarInfo("GY3786", 3, "Vlnmn", 3873);
+        rp.addCarInfo("PY3786", 31, "Imhmzs", 1627);
+        rp.addCarInfo("GY3786", 58, "Vufqt", 4260);
+        rp.addCarInfo("AE1430", 31, "Imhmzs", 1627);
+        rp.addCarInfo("UW9438", 9, "Eomlakglwr", 9193);
+
+        System.out.println("          All List");
+        rp.showRoadPatrol();
+        System.out.println("");
+
+        System.out.println("        One Car Info");
+        System.out.println(rp.findCarInfo("GY3786"));
+
+        rp.showItemInfo(31);
+        rp.showCarsByItem(31);
+    }
+
+}
+
+run:
+          All List
+Car Number             AE1430
+-----------------------------
+ #31 Imhmzs          1627grn.
+-----------------------------
+
+Car Number             GY3786
+-----------------------------
+  #3 Vlnmn           3873grn.
+ #31 Imhmzs          1627grn.
+ #58 Vufqt           4260grn.
+-----------------------------
+
+Car Number             PY3786
+-----------------------------
+ #31 Imhmzs          1627grn.
+-----------------------------
+
+Car Number             UW9438
+-----------------------------
+  #9 Eomlakglwr      9193grn.
+ #66 Nmzeu           9572grn.
+-----------------------------
+
+
+        One Car Info
+Car Number             GY3786
+-----------------------------
+  #3 Vlnmn           3873grn.
+ #31 Imhmzs          1627grn.
+ #58 Vufqt           4260grn.
+-----------------------------
+
+
+Item Info: #31 Imhmzs
+Car Number: GY3786
+Car Number: AE1430
+Car Number: PY3786
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
