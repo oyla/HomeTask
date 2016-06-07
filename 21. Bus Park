@@ -520,3 +520,22 @@ public class JavaApplication21_3 {
 
     }
 }
+
+run:
+Park has 1 bus(es):
+Bus#121 moving along the route#86
+Route#86 has 6 stops:
+name: Egzisvwd     type: Scheduled Stop       pass:  5   3   5   bus: 19  15  20 
+name: Dnybyqt      type: Hail and Ride Stop   pass:  5   3   1   bus: 17  29  15 
+name: Azds         type: Scheduled Stop       pass:  3   4   1   bus: 28  28  22 
+name: Damrd        type: Scheduled Stop       pass:  5   2   5   bus: 26  27  19 
+name: Ppclojc      type: Scheduled Stop       pass:  3   1   1   bus: 29  15  19 
+name: Gblltqiw     type: Scheduled Stop       pass:  2   2   2   bus: 16  16  15 
+
+The mean residence time man at the stop 18 min
+People at the stop 10
+Empty seats in the bus 2
+Max count of people at the bus stop 7
+Sufficient amount of time between the arrival of buses 19 min
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
+
