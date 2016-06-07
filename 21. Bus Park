@@ -1,0 +1,522 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication21_3;
+
+/**
+ *
+ * @author user
+ */
+class Route {
+
+    class Stop {
+
+        private int type;
+        private String name;
+        private int[] passAppearTime = new int[3];
+        private int[] busAppearTime = new int[3];
+        private String[] stopTypes = {"Scheduled Stop", "Request Stop", "Hail and Ride Stop"};
+        Stop next;
+        Stop prev;
+
+        Stop() {
+
+        }
+
+        Stop(int type, String name, int[] passAppearTime, int[] busAppearTime) {
+            setType(type);
+            setName(name);
+            setPassAppearTime(passAppearTime);
+            setBusAppearTime(busAppearTime);
+        }
+
+        /**
+         * @return the type
+         */
+        public int getType() {
+            return type;
+        }
+
+        /**
+         * @return the name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * @return the passAppearTime
+         */
+        public int[] getPassAppearTime() {
+            return passAppearTime;
+        }
+
+        /**
+         * @return the busAppearTime
+         */
+        public int[] getBusAppearTime() {
+            return busAppearTime;
+        }
+
+        /**
+         * @param type the type to set
+         */
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        /**
+         * @param name the name to set
+         */
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        /**
+         * @param passAppearTime the passAppearTime to set
+         */
+        public void setPassAppearTime(int[] passAppearTime) {
+            if (passAppearTime.length == 3) {
+                this.passAppearTime = passAppearTime;
+            }
+        }
+
+        /**
+         * @param busAppearTime the busAppearTime to set
+         */
+        public void setBusAppearTime(int[] busAppearTime) {
+            if (busAppearTime.length == 3) {
+                this.busAppearTime = busAppearTime;
+            }
+        }
+
+        @Override
+        public String toString() {
+            String s = "";
+            s += "name: " + String.format("%-12s", name) + " ";
+            s += "type: " + String.format("%-20s", stopTypes[type]) + " ";
+            s += "pass:";
+            for (int t : passAppearTime) {
+                s += String.format("%3d", t) + " ";
+            }
+            s += "  bus:";
+            for (int t : busAppearTime) {
+                s += String.format("%3d", t) + " ";
+            }
+            return s;
+        }
+    }
+
+    private int number;
+    private Stop head;
+    private Stop tail;
+    private int count;
+
+    Route() {
+        this(RandomValues.generateNumber(1, 100));
+    }
+
+    Route(int number) {
+        this.number = number;
+    }
+
+    public int getRouteNumber() {
+        return number;
+    }
+
+    public void setRouteNumber(int number) {
+        this.number = number;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void clear() {
+        head = tail = null;
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void addTail(int type, String name, int[] passAppearTime, int[] busAppearTime) {
+        Stop temp = new Stop(type, name, passAppearTime, busAppearTime);
+        if (isEmpty()) {
+            head = temp;
+        } else {
+            tail.next = temp;
+        }
+        tail = temp;
+        count++;
+    }
+
+    public Stop delHead() {
+        if (isEmpty()) {
+            return null;
+        }
+        Stop data = head;
+        head = head.next;
+        if (head == null) {
+            tail = null;
+        } else {
+            head.prev = null;
+        }
+        count--;
+        addTail(data.getType(), data.getName(), data.getPassAppearTime(), data.getBusAppearTime());
+        return data;
+    }
+
+    public Stop getStop(int pos) {
+        if (pos < 0 || pos >= count) {
+            return null;
+        }
+        Stop temp = head;
+        int i = 0;
+        while (i < pos) {
+            i++;
+            temp = temp.next;
+        }
+        return new Stop(temp.getType(), temp.getName(), temp.getPassAppearTime(), temp.getBusAppearTime());
+    }
+
+    public Route clone() {
+        if (isEmpty()) {
+            return null;
+        }
+        Route clon = new Route();
+        clon.setRouteNumber(number);
+        Stop temp = head;
+        int i = 0;
+        while (i < count) {
+            clon.addTail(temp.getType(), temp.getName(), temp.getPassAppearTime(), temp.getBusAppearTime());
+            temp = temp.next;
+            i++;
+        }
+        return clon;
+    }
+
+    public int defineAverageBusAppearTime() {
+        int busAppearTime = 0;
+        int[] arr = new int[3];
+        int i = 0;
+        Stop temp = head;
+        while (i < count) {
+            arr = temp.getBusAppearTime();
+            for (int t : arr) {
+                busAppearTime += t;
+            }
+            i++;
+            temp = temp.next;
+        }
+        busAppearTime /= (count * arr.length);
+        return busAppearTime;
+    }
+
+    public int defineAveragePassAppearTime() {
+        int passAppearTime = 0;
+        int[] arr = new int[3];
+        int i = 0;
+        Stop temp = head;
+        while (i < count) {
+            arr = temp.getPassAppearTime();
+            for (int t : arr) {
+                passAppearTime += t;
+            }
+            i++;
+            temp = temp.next;
+        }
+        passAppearTime /= (count * arr.length);
+        return passAppearTime;
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) {
+            return "Route is Empty!";
+        }
+        String s = "Route#" + number + " has " + count + " stops:\n";
+        Stop temp = head;
+        int i = 0;
+        while (i < count) {
+            s += temp.toString();
+            if (i < count - 1) {
+                s += "\n";
+            }
+            i++;
+            temp = temp.next;
+        }
+        return s;
+    }
+}
+
+class Park {
+
+    class Bus {
+
+        private int number;
+        private Route route = new Route();
+        Bus next;
+        Bus prev;
+
+        Bus() {
+            this(RandomValues.generateNumber(1, 100));
+        }
+
+        Bus(int number) {
+            this(number, new Route());
+        }
+
+        Bus(int number, Route route) {
+            setBusNumber(number);
+            setBusRoute(route);
+        }
+
+        /**
+         * @return the number
+         */
+        public int getBusNumber() {
+            return number;
+        }
+
+        /**
+         * @return the route
+         */
+        public Route getRoute() {
+            return route.clone();
+        }
+
+        /**
+         * @param number the number to set
+         */
+        public void setBusNumber(int number) {
+            this.number = number;
+        }
+
+        /**
+         * @param route the route to set
+         */
+        public void setBusRoute(Route route) {
+            if (!route.isEmpty()) {
+                this.route = route.clone();
+            }
+        }
+
+        public void addRouteStop(int type, String name, int[] passAppearTime, int[] busAppearTime) {
+            route.addTail(type, name, passAppearTime, busAppearTime);
+        }
+
+        public void delRouteStop() {
+            route.delHead();
+        }
+
+        @Override
+        public String toString() {
+            return "Bus#" + number + " moving along the route#" + route.getRouteNumber();
+        }
+    }
+    private Bus head;
+    private Bus tail;
+    private int count;
+
+    Park() {
+
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void clear() {
+        head = tail = null;
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void addBus(int number) {
+        addBus(number, new Route());
+    }
+
+    public void addBus(int number, Route route) {
+        Bus temp = new Bus(number, route);
+        if (isEmpty()) {
+            head = temp;
+        } else {
+            tail.next = temp;
+        }
+        tail = temp;
+        count++;
+    }
+
+    public Bus delBus() {
+        if (isEmpty()) {
+            return null;
+        }
+        Bus data = head;
+        head = head.next;
+        if (head == null) {
+            tail = null;
+        } else {
+            head.prev = null;
+        }
+        count--;
+        addBus(data.getBusNumber(), data.getRoute());
+        return data;
+    }
+
+    public Bus getBus(int busItem) {
+        if (!isEmpty() && busItem >= 0 && busItem < count) {
+            Bus temp = head;
+            int i = 0;
+            while (i < busItem) {
+                i++;
+                temp = temp.next;
+            }
+            return temp;
+        }
+        return null;
+    }
+
+    public void setBusRoute(int busItem, Route route) {
+        Bus temp = getBus(busItem);
+        if (temp != null) {
+            temp.setBusRoute(route);
+        }
+    }
+
+    public String getBusRoute(int busItem) {
+        Bus temp = getBus(busItem);
+        if (temp != null) {
+            return temp.getRoute().toString();
+        }
+        return "Not found";
+    }
+
+    public void addBusRouteStop(int busItem, int type, String name, int[] passAppearTime, int[] busAppearTime) {
+        Bus temp = getBus(busItem);
+        if (temp != null) {
+            temp.addRouteStop(type, name, passAppearTime, busAppearTime);
+        }
+    }
+
+    public void delBusRouteStop(int busItem) {
+        Bus temp = getBus(busItem);
+        if (temp != null) {
+            temp.delRouteStop();
+        }
+    }
+
+    public int defineAveragePassAppearTimeByItem(int busItem) {
+        Bus temp = getBus(busItem);
+        if (temp != null) {
+            return temp.getRoute().defineAveragePassAppearTime();
+        }
+        return 0;
+    }
+
+    public int defineAverageBusAppearTimeByItem(int busItem) {
+        Bus temp = getBus(busItem);
+        if (temp != null) {
+            return temp.getRoute().defineAverageBusAppearTime();
+        }
+        return 0;
+    }
+
+    public int defineAverageTimeByItem(int busItem) {
+        return defineAverageBusAppearTimeByItem(busItem) - defineAveragePassAppearTimeByItem(busItem);
+    }
+
+    public int defineCountPeopleByItem(int busItem) {
+        return defineAverageBusAppearTimeByItem(busItem) / defineAveragePassAppearTimeByItem(busItem);
+    }
+
+    public int defineTimeIntervalByItem(int busItem, int emptySeats, int maxPeopleAtStop) {
+        int count = defineCountPeopleByItem(busItem) - emptySeats;
+        int passAppear = defineAveragePassAppearTimeByItem(busItem);
+        int busAppear = defineAverageBusAppearTimeByItem(busItem);
+        while (count > maxPeopleAtStop) {
+            busAppear--;
+            count = busAppear / passAppear - emptySeats;
+        }
+        return busAppear;
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) {
+            return "Park is Empty!";
+        }
+        String s = "Park has " + count + " bus(es):\n";
+        Bus temp = head;
+        int i = 0;
+        while (i < count) {
+            s += temp.toString();
+            if (i < count - 1) {
+                s += "\n";
+            }
+            i++;
+            temp = temp.next;
+        }
+        return s;
+    }
+}
+
+final class RandomValues {
+
+    public static String generateText(int minSymbol, int maxSymbol, int min, int max) {
+        String s = "";
+        int c;
+        int lengthText = min + (int) (Math.random() * ((max - min) + 1));
+        for (int i = 0; i < lengthText; i++) {
+            c = (int) (Math.random() * (maxSymbol - minSymbol) + minSymbol);
+            s += (char) c;
+            if (i == 0) {
+                s = s.toUpperCase();
+            }
+        }
+        return s;
+    }
+
+    public static int generateNumber(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
+    public static int[] generateArrayNumbers(int min, int max, int count) {
+        int[] arrNums = new int[count];
+        for (int i = 0; i < count; i++) {
+            arrNums[i] = generateNumber(min, max);
+        }
+        return arrNums;
+    }
+
+}
+
+public class JavaApplication21_3 {
+
+    public static void main(String[] args) {
+
+        Park busPark = new Park();
+        busPark.addBus(121);
+        for (int i = 0; i < 6; i++) {
+            busPark.addBusRouteStop(0, RandomValues.generateNumber(0, 2), RandomValues.generateText(97, 123, 4, 10), RandomValues.generateArrayNumbers(1, 5, 3), RandomValues.generateArrayNumbers(15, 30, 3));
+        }
+        System.out.println(busPark);
+        System.out.println(busPark.getBusRoute(0));
+        System.out.println("");
+
+        System.out.println("The mean residence time man at the stop " + busPark.defineAverageTimeByItem(0) + " min");
+        System.out.println("People at the stop " + busPark.defineCountPeopleByItem(0));
+        int emptySeats = RandomValues.generateNumber(0, 20);
+        System.out.println("Empty seats in the bus " + emptySeats);
+        int maxPeopleAtStop = RandomValues.generateNumber(0, 10);
+        System.out.println("Max count of people at the bus stop " + maxPeopleAtStop);
+        System.out.println("Sufficient amount of time between the arrival of buses " + busPark.defineTimeIntervalByItem(0, emptySeats, maxPeopleAtStop) + " min");
+
+    }
+}
