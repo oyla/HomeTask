@@ -1,0 +1,70 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication23_1;
+
+/**
+ *
+ * @author Oyla
+ */
+class Aspirant extends Student {
+
+    private String theme;
+
+    Aspirant() {
+        this("", "", "", "");
+    }
+
+    Aspirant(String surname, String name, String patronymic, String theme) {
+        super(surname, name, patronymic);
+        setTheme(theme);
+    }
+
+    /**
+     * @return the theme
+     */
+    public String getTheme() {
+        return theme;
+    }
+
+    /**
+     * @param theme the theme to set
+     */
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    @Override
+    public String showStudent() {
+        String s = "Aspirant:\n";
+        s += super.showStudent();
+        s += "Theme: " + theme;
+        return s;
+    }
+}
+
+public class JavaApplication23_1 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Aspirant a = new Aspirant("Morozov", "Ivan", "Petrovich", "Algebra of integrals of motion");
+        System.out.println(a.showStudent());
+    }
+
+}
+
+run:
+Aspirant:
+Morozov Ivan Petrovich
+9 Jun 2016
+Unknown address
+Unknown phone
+Tests: no ratings
+Courses: no ratings
+Exams: no ratings
+Theme: Algebra of integrals of motion
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
