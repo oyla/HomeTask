@@ -1,0 +1,277 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication23_2;
+
+/**
+ *
+ * @author user
+ */
+class Passport {
+
+    private String surname;
+    private String name;
+    private String patronymic;
+    private String number;
+
+    Passport() {
+
+    }
+
+    public Passport(String surname, String name, String patronymic) {
+        this(surname, name, patronymic, "");
+    }
+
+    public Passport(String surname, String name, String patronymic, String number) {
+        setSurname(surname);
+        setName(name);
+        setPatronymic(patronymic);
+        setNumber(number);
+    }
+
+    /**
+     * @return the surname
+     */
+    public String getSurname() {
+        return surname;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the patronymic
+     */
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    /**
+     * @return the number
+     */
+    public String getNumber() {
+        return number;
+    }
+
+    /**
+     * @param surname the surname to set
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @param patronymic the patronymic to set
+     */
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    /**
+     * @param number the number to set
+     */
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String toString() {
+        String s = String.format("%-12s", "number:");
+        s += number + "\n";
+        s += String.format("%-12s", "surname:");
+        s += surname + "\n";
+        s += String.format("%-12s", "name:");
+        s += name + "\n";
+        s += String.format("%-12s", "patronymic:");
+        s += patronymic;
+        return s;
+    }
+
+}
+
+class ForeignPassport extends Passport {
+
+    class Visa {
+
+        private String country;
+        private String date;
+        Visa next;
+
+        public Visa(String country, String date) {
+            setCountry(country);
+            setDate(date);
+        }
+
+        /**
+         * @return the country
+         */
+        public String getCountry() {
+            return country;
+        }
+
+        /**
+         * @param country the country to set
+         */
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        /**
+         * @return the date
+         */
+        public String getDate() {
+            return date;
+        }
+
+        /**
+         * @param date the date to set
+         */
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        @Override
+        public String toString() {
+            return country + " " + date;
+        }
+    }
+    private String number;
+    private Visa head;
+    private Visa tail;
+    private int count;
+
+    public ForeignPassport() {
+    }
+
+    public ForeignPassport(String surname, String name, String patronymic) {
+        this(surname, name, patronymic, "");
+    }
+
+    public ForeignPassport(String surname, String name, String patronymic, String number) {
+        super(surname, name, patronymic, number);
+        setNumber(number);
+    }
+
+    /**
+     * @return the number
+     */
+    public String getNumber() {
+        return number;
+    }
+
+    /**
+     * @param number the number to set
+     */
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public void addHead(String country, String date) {
+        Visa newElem = new Visa(country, date);
+        newElem.next = head;
+        if (head == null) {
+            tail = newElem;
+        }
+        head = newElem;
+        count++;
+    }
+
+    public String toString() {
+        String s = String.format("%-12s", "number:");
+        s += number + "\n";
+        s += String.format("%-12s", "surname:");
+        s += getSurname() + "\n";
+        s += String.format("%-12s", "name:");
+        s += getName() + "\n";
+        s += String.format("%-12s", "patronymic:");
+        s += getPatronymic() + "\n";
+        if (isEmpty()) {
+            s += "No visas";
+        } else {
+            s += String.format("%-12s", "Visas:");
+            Visa temp = head;
+            int i = 0;
+            while (i < count) {
+                if (i != 0) {
+                    s += String.format("%-13s", "\n");
+                }
+                s += temp.toString();
+                i++;
+                temp = temp.next;
+            }
+        }
+        return s;
+    }
+}
+
+final class RandomValues {
+
+    public static String generateText(int minSymbol, int maxSymbol, int min, int max) {
+        String s = "";
+        int c;
+        int lengthText = min + (int) (Math.random() * ((max - min) + 1));
+        for (int i = 0; i < lengthText; i++) {
+            c = (int) (Math.random() * (maxSymbol - minSymbol) + minSymbol);
+            s += (char) c;
+            if (i == 0) {
+                s = s.toUpperCase();
+            }
+        }
+        return s;
+    }
+
+    public static int generateNumber(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
+}
+
+public class JavaApplication23_2 {
+    public static void main(String[] args) {
+        Passport p = new Passport("Ivanov", "Ivan", "Ivanovich", RandomValues.generateText(65, 91, 2, 2) + "" + RandomValues.generateNumber(100000, 999999));
+        System.out.println(p);
+        System.out.println("");
+        ForeignPassport f = new ForeignPassport(p.getSurname(), p.getName(), p.getPatronymic(), RandomValues.generateText(65, 91, 2, 2) + "" + RandomValues.generateNumber(10000000, 99999999));
+        f.addHead("USA", "07/01/2016 - 08/01/2016");
+        f.addHead("Australia", "01/01/2016 - 12/31/2016");
+        f.addHead("China", "03/01/2016 - 06/31/2016");
+        System.out.println(f);
+    }
+
+}
+
+run:
+number:     JH879388
+surname:    Ivanov
+name:       Ivan
+patronymic: Ivanovich
+
+number:     CD12316725
+surname:    Ivanov
+name:       Ivan
+patronymic: Ivanovich
+Visas:      China 03/01/2016 - 06/31/2016
+            Australia 01/01/2016 - 12/31/2016
+            USA 07/01/2016 - 08/01/2016
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
+
