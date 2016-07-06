@@ -1,0 +1,881 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication23_3;
+
+/**
+ *
+ * @author user
+ */
+class MyCollection {
+
+    private String name;
+
+    public MyCollection() {
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the count
+     */
+    public int getCount() {
+        return 0;
+    }
+
+    public void add(int value) {
+
+    }
+
+    public boolean remove(int value) {
+        return false;
+    }
+
+    public String print() {
+        return null;
+    }
+
+    public int search(int value) {
+        return -1;
+    }
+
+    public boolean replace(int index, int value) {
+        return false;
+    }
+
+    public boolean sort() {
+        return true;
+    }
+
+}
+
+class MyArrayList extends MyCollection {
+
+    private int count;
+    private int[] data;
+    private int capacity = 10;
+
+    public MyArrayList() {
+        this(10);
+    }
+
+    public MyArrayList(int capacity) {
+        setCapacity(capacity);
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public void clear() {
+        for (int i = 0; i < count; i++) {
+            data[i] = 0;
+        }
+        count = 0;
+    }
+
+    public void add(int value) {
+        ensureCapacity(count + 1);
+        data[count] = value;
+        count++;
+    }
+
+    public boolean remove(int value) {
+        boolean removeValue = false;
+        if (search(value) > -1) {
+            removeValue = removeAt(search(value));
+        }
+        return removeValue;
+    }
+
+    public String print() {
+        if (isEmpty()) {
+            return "Collection is empty.";
+        } else {
+            String s = "";
+            for (int i = 0; i < count; i++) {
+                s += data[i] + " ";
+            }
+            return s;
+        }
+
+    }
+
+    public int search(int value) {
+        for (int i = 0; i < count; i++) {
+            if (data[i] == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean replace(int index, int value) {
+        if (index >= 0 && index < count) {
+            data[index] = value;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean sort() {
+        boolean sortDone = false;
+        for (int i = 0; i < count - 1; i++) {
+            for (int j = i + 1; j < count; j++) {
+                if (data[i] > data[j]) {
+                    data[i] += data[j];
+                    data[j] = data[i] - data[j];
+                    data[i] -= data[j];
+                    sortDone = true;
+                }
+            }
+        }
+        return sortDone;
+    }
+
+    public boolean removeAt(int index) {
+        if (index >= 0 && index < count) {
+            for (int i = index; i < count - 1; i++) {
+                data[i] = data[i + 1];
+            }
+            count--;
+            return true;
+        }
+        return false;
+    }
+
+    private void ensureCapacity(int arrLength) {
+        if (arrLength > capacity) {
+            int newLength = (arrLength * 3) / 2 + 1;
+            setCapacity(newLength);
+        }
+    }
+
+    /**
+     * @param capacity the capacity to set
+     */
+    public void setCapacity(int capacity) {
+        if (isEmpty()) {
+            if (capacity <= count) {
+                capacity = 10;
+            }
+            data = new int[capacity];
+            this.capacity = capacity;
+
+        } else if (capacity <= count) {
+            trimToSize();
+        } else {
+            this.capacity = capacity;
+            overwriteData(capacity);
+        }
+    }
+
+    public void trimToSize() {
+        capacity = getCount();
+        overwriteData(capacity);
+    }
+
+    public void overwriteData(int newLength) {
+        int[] temp = new int[newLength];
+        for (int i = 0; i < count; i++) {
+            temp[i] = getElementAt(i);
+        }
+        data = temp;
+    }
+
+    public int getElementAt(int index) {
+        if (index >= 0 && index < count) {
+            int value = data[index];
+            return value;
+        }
+        return -1;
+    }
+}
+
+final class RandomValues {
+
+    public static int generateNumber(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+}
+
+class SLL extends MyCollection {
+
+    public SLL() {
+
+    }
+
+    class Node {
+
+        int data;
+        Node next;
+    }
+
+    private Node head;
+    private Node tail;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void add(int value) {
+        Node newElem = new Node();
+        newElem.data = value;
+        if (tail == null) {
+            head = newElem;
+        } else {
+            tail.next = newElem;
+        }
+        tail = newElem;
+        count++;
+    }
+
+    public boolean remove(int value) {
+        boolean removeValue = false;
+        while (search(value) > -1) {
+            removeValue = removeAt(search(value));
+        }
+        return removeValue;
+    }
+
+    public String print() {
+        if (isEmpty()) {
+            return "Collection is empty.";
+        } else {
+            String s = "";
+            Node temp = head;
+            while (temp != null) {
+                s += temp.data + " ";
+                temp = temp.next;
+            }
+            return s;
+        }
+    }
+
+    public int search(int value) {
+        if (!isEmpty()) {
+            Node temp = head;
+            int i = 0;
+            while (i < count) {
+                if (temp.data == value) {
+                    return i;
+                }
+                i++;
+                temp = temp.next;
+            }
+        }
+        return -1;
+    }
+
+    public boolean replace(int index, int value) {
+        if (!isEmpty() && index >= 0 && index < count) {
+            Node temp = head;
+            int i = 0;
+            while (i < index) {
+                i++;
+                temp = temp.next;
+            }
+            temp.data = value;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean sort() {
+        boolean sortDone = false;
+        int i = 0;
+        int j;
+        Node temp = head;
+        Node temp2;
+        int dataTemp1;
+        int dataTemp2;
+        int minIndex;
+        while (i < count - 1) {
+            dataTemp1 = temp.data;
+            minIndex = i;
+            j = i + 1;
+            temp2 = temp.next;
+            while (j < count) {
+                dataTemp2 = temp2.data;
+                if (dataTemp1 > dataTemp2) {
+                    dataTemp1 = dataTemp2;
+                    minIndex = j;
+                    sortDone = true;
+                }
+                j++;
+                temp2 = temp2.next;
+            }
+            if (minIndex != i) {
+                replace(minIndex, temp.data);
+                temp.data = dataTemp1;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return sortDone;
+    }
+
+    public boolean removeAt(int index) {
+
+        if (!isEmpty() && index >= 0 && index < count) {
+            if (index == 0) {
+                head = head.next;
+                if (head == null) {
+                    tail = null;
+                }
+            } else {
+                Node temp = head;
+                Node prev = null;
+                int i = 0;
+                while (i < index) {
+                    prev = temp;
+                    temp = temp.next;
+                    i++;
+                }
+                prev.next = temp.next;
+                if (index == count - 1) {
+                    tail = prev;
+                }
+            }
+            count--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+}
+
+class DLL extends MyCollection {
+
+    class Node {
+
+        int data;
+        Node next;
+        Node prev;
+    }
+
+    private Node head;
+    private Node tail;
+    private int count;
+
+    public DLL() {
+
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void add(int value) {
+        Node temp = new Node();
+        temp.data = value;
+        temp.prev = tail;
+        if (isEmpty()) {
+            head = temp;
+        } else {
+            tail.next = temp;
+        }
+        tail = temp;
+        count++;
+    }
+
+    public boolean remove(int value) {
+        boolean removeValue = false;
+        while (search(value) > -1) {
+            removeValue = removeAt(search(value));
+        }
+        return removeValue;
+    }
+
+    public String print() {
+        if (isEmpty()) {
+            return "Collection is empty.";
+        }
+        String s = "";
+        Node temp = head;
+        while (temp != null) {
+            s += temp.data + " ";
+            temp = temp.next;
+        }
+        return s;
+    }
+
+    public int search(int value) {
+        Node temp = head;
+        int i = 0;
+        while (i < count) {
+            if (temp.data == value) {
+                return i;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return -1;
+    }
+
+    public boolean replace(int index, int value) {
+        if (!isEmpty() && index >= 0 && index < count) {
+            Node temp = head;
+            int i = 0;
+            while (i < index) {
+                i++;
+                temp = temp.next;
+            }
+            temp.data = value;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean sort() {
+        boolean sortDone = false;
+        int i = 0;
+        int j;
+        Node temp = head;
+        Node temp2;
+        int dataTemp1;
+        int dataTemp2;
+        int minIndex;
+        while (i < count - 1) {
+            dataTemp1 = temp.data;
+            minIndex = i;
+            j = i + 1;
+            temp2 = temp.next;
+            while (j < count) {
+                dataTemp2 = temp2.data;
+                if (dataTemp1 > dataTemp2) {
+                    dataTemp1 = dataTemp2;
+                    minIndex = j;
+                    sortDone = true;
+                }
+                j++;
+                temp2 = temp2.next;
+            }
+            if (minIndex != i) {
+                replace(minIndex, temp.data);
+                temp.data = dataTemp1;
+            }
+            i++;
+            temp = temp.next;
+        }
+        return sortDone;
+    }
+
+    public void clear() {
+        head = tail = null;
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public boolean removeAt(int index) {
+        if (!isEmpty() && index >= 0 && index < count) {
+            if (index == 0) {
+                head = head.next;
+                if (head == null) {
+                    tail = null;
+                } else {
+                    head.prev = null;
+                }
+            } else if (index == count - 1) {
+                tail = tail.prev;
+                tail.next = null;
+            } else {
+                int i = 0;
+                Node temp = head;
+                while (i < index) {
+                    i++;
+                    temp = temp.next;
+                }
+                temp.prev.next = temp.next;
+                temp.next.prev = temp.prev;
+            }
+            count--;
+            return true;
+        }
+        return false;
+    }
+}
+
+class Tree extends MyCollection {
+
+    class Node { // inner class!
+
+        private int value;
+        private Node parent;
+        private Node right;
+        private Node left;
+
+        public int getValue() {
+            return value;
+        }
+    }
+    private Node root;
+
+    public Tree() {
+
+    }
+
+    public int getCount() {
+        int count = 0;
+        count = getCount(root, count);
+        return count;
+    }
+
+    private int getCount(Node elem, int count) {
+        if (elem != null) {
+            count = getCount(elem.left, count);
+            count++;
+            count = getCount(elem.right, count);
+        }
+        return count;
+    }
+
+    public void add(int value) {
+        if (findNode(value) != null) {
+            return;
+        }
+
+        Node n = new Node();
+        n.right = n.left = null;
+        n.value = value;
+        Node parent = null;
+        if (isEmpty()) {
+            root = n;
+            root.parent = parent;
+        } else {
+            Node p = root;
+            while (p != null) {
+                parent = p;
+                if (n.value > p.value) {
+                    p = p.right;
+                } else {
+                    p = p.left;
+                }
+            }
+            if (n.value < parent.value) {
+                parent.left = n;
+            } else {
+                parent.right = n;
+            }
+            n.parent = parent;
+        }
+    }
+
+    public boolean remove(int value) {
+        Node d = findNode(value);
+        if (d == null) {
+            return false;
+        }
+
+        if (d == root && getCount() == 1) {
+            clear();
+            return false;
+        }
+        Node parent = d.parent;
+        int index = 0;
+        // нет потомков
+        if (d.left == null && d.right == null) {
+            if (parent.left == d) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+            return true;
+        }
+
+        // есть правый потомок, но нет левого
+        if (d.left == null && d.right != null) {
+            if (d == root) {
+                root = d.right;
+                d.right.parent = null;
+            } else {
+                if (parent.left == d) {
+                    parent.left = d.right;
+                } else {
+                    parent.right = d.right;
+                }
+                d.right.parent = parent;
+            }
+            return true;
+        }
+
+        // есть левый, но нет правого потомка
+        if (d.left != null && d.right == null) {
+            if (d == root) {
+                root = d.left;
+                d.left.parent = null;
+            } else {
+                if (parent.left == d) {
+                    parent.left = d.left;
+                } else {
+                    parent.right = d.left;
+                }
+                d.left.parent = parent;
+            }
+            return true;
+        }
+
+        // есть оба потомка
+        if (d.left != null && d.right != null) {
+            Node r = d.right;
+            if (r.right == null && r.left == null) {
+                d.value = r.value;
+                d.right = null;
+            } else if (r.left != null) {
+                Node p = r.left;
+
+                while (p.left != null) {
+                    p = p.left;
+                }
+
+                d.value = p.value;
+
+                if (p.right == null) {
+                    p.parent.left = null;
+                } else {
+                    p.parent.left = p.right;
+                }
+            } else {
+                d.value = r.value;
+                d.right = r.right;
+            }
+        }
+        return true;
+    }
+
+    public String print() {
+        if (isEmpty()) {
+            return "Collection is empty.";
+        }
+        return dataString(root);
+    }
+
+    private String dataString(Node elem) {
+        String s = "";
+        if (elem != null) {
+            s += dataString(elem.left);
+            s += elem.getValue() + " ";
+            s += dataString(elem.right);
+            return s;
+        }
+        return "";
+    }
+
+    public int search(int value) {
+        String[] data = dataString(root).split("\\s+");
+        String valueString = Integer.toString(value);
+        for (int i = 0; i < data.length; i++) {
+            if (valueString.equals(data[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean replace(int index, int value) {
+        if (!isEmpty() && index >= 0 && index < getCount()) {
+            String[] data = dataString(root).split("\\s+");
+            remove(Integer.parseInt(data[index]));
+            add(value);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean sort() {
+        boolean sortDone = false;
+        if (!isEmpty()) {
+            Node f = root;
+            int data;
+            while (f.left != null) {
+                data = f.value;
+                f = root;
+                remove(data);
+                add(data);
+            }
+        }
+        return sortDone;
+    }
+
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    public Node getRoot() {
+        return root;
+    }
+
+    public void clear() {
+        if (!isEmpty()) {
+            clear(root);
+        }
+    }
+
+    private void clear(Node elem) {
+        if (elem != null) {
+            clear(elem.left);
+            clear(elem.right);
+            elem = null;
+        }
+    }
+
+    public Node findNode(int value) {
+        if (isEmpty()) {
+            return null;
+        } else {
+            Node f = root;
+            while (true) {
+                if (value < f.value) {
+                    if (f.left != null) {
+                        f = f.left;
+                    } else {
+                        break;
+                    }
+                } else if (value > f.value) {
+                    if (f.right != null) {
+                        f = f.right;
+                    } else {
+                        break;
+                    }
+                } else {
+                    return f;
+                }
+            }
+            return null;
+        }
+    }
+
+}
+
+public class JavaApplication23_3 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        MyCollection[] myCollection = new MyCollection[4];
+        myCollection[0] = new MyArrayList();
+        myCollection[0].setName("MyArrayList");
+        myCollection[1] = new SLL();
+        myCollection[1].setName("SLL");
+        myCollection[2] = new DLL();
+        myCollection[2].setName("DLL");
+        myCollection[3] = new Tree();
+        myCollection[3].setName("Tree");
+        int[] values = {47, 84, 1, 20, 34, 100, 1, 35, 87};
+
+        System.out.println(String.format("%20s", "add(...)"));
+        for (int j = 0; j < values.length; j++) {
+            for (int i = 0; i < myCollection.length; i++) {
+                myCollection[i].add(values[j]);
+            }
+        }
+        for (int i = 0; i < myCollection.length; i++) {
+            System.out.printf("%-12s", myCollection[i].getName());
+            System.out.println(myCollection[i].print());
+        }
+        System.out.println("");
+
+        System.out.println(String.format("%22s", "getCount()"));
+        for (int i = 0; i < myCollection.length; i++) {
+            System.out.printf("%-12s", myCollection[i].getName());
+            System.out.println(myCollection[i].getCount());
+        }
+        System.out.println("");
+        System.out.println(String.format("%23s", "remove(100)"));
+        for (int i = 0; i < myCollection.length; i++) {
+            myCollection[i].remove(100);
+        }
+        for (int i = 0; i < myCollection.length; i++) {
+            System.out.printf("%-12s", myCollection[i].getName());
+            System.out.println(myCollection[i].print());
+        }
+        System.out.println("");
+        System.out.println(String.format("%22s", "search(34)"));
+        for (int i = 0; i < myCollection.length; i++) {
+            System.out.printf("%-12s", myCollection[i].getName());
+            System.out.println(myCollection[i].search(34));
+        }
+        System.out.println("");
+
+        System.out.println(String.format("%27s", "replace(2, 999)"));
+        for (int i = 0; i < myCollection.length; i++) {
+            myCollection[i].replace(2, 999);
+            System.out.printf("%-12s", myCollection[i].getName());
+            System.out.println(myCollection[i].print());
+        }
+        System.out.println("");
+
+        System.out.println(String.format("%18s", "sort()"));
+        for (int i = 0; i < myCollection.length; i++) {
+            myCollection[i].sort();
+            System.out.printf("%-12s", myCollection[i].getName());
+            System.out.println(myCollection[i].print());
+        }
+    }
+
+}
+
+run:
+            add(...)
+MyArrayList 47 84 1 20 34 100 1 35 87 
+SLL         47 84 1 20 34 100 1 35 87 
+DLL         47 84 1 20 34 100 1 35 87 
+Tree        1 20 34 35 47 84 87 100 
+
+            getCount()
+MyArrayList 9
+SLL         9
+DLL         9
+Tree        8
+
+            remove(100)
+MyArrayList 47 84 1 20 34 1 35 87 
+SLL         47 84 1 20 34 1 35 87 
+DLL         47 84 1 20 34 1 35 87 
+Tree        1 20 34 35 47 84 87 
+
+            search(34)
+MyArrayList 4
+SLL         4
+DLL         4
+Tree        2
+
+            replace(2, 999)
+MyArrayList 47 84 999 20 34 1 35 87 
+SLL         47 84 999 20 34 1 35 87 
+DLL         47 84 999 20 34 1 35 87 
+Tree        1 20 35 47 84 87 999 
+
+            sort()
+MyArrayList 1 20 34 35 47 84 87 999 
+SLL         1 20 34 35 47 84 87 999 
+DLL         1 20 34 35 47 84 87 999 
+Tree        1 20 35 47 84 87 999 
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
+
