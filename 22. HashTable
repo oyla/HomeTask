@@ -1,0 +1,215 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication22_2;
+
+/**
+ *
+ * @author user
+ */
+class HashTable {
+
+    private Entry[] table;    // array of entries
+    private int capacity = 13;  // initial capacity of hash map
+    private int count = 0;  // initial capacity of hash map
+
+    class Entry {
+
+        private int value;
+
+        public Entry() {
+
+        }
+
+        public Entry(int value) {
+            setValue(value);
+        }
+
+        /**
+         * @return the value
+         */
+        public int getValue() {
+            return value;
+        }
+
+        /**
+         * @param value the value to set
+         */
+        public void setValue(int value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            String s = "";
+            return s + value;
+        }
+
+    }
+
+    public HashTable() {
+        this(13);
+    }
+
+    public HashTable(int capacity) {
+        setCapacity(capacity);
+        table = new Entry[capacity];
+    }
+
+    /**
+     * @return the capacity
+     */
+    public int getCapacity() {
+        return capacity;
+    }
+
+    /**
+     * @return the count
+     */
+    public int getCount() {
+        return count;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public int hashFunc(int key) {
+        return key % capacity;       // hash function
+    }
+
+    public String display() {
+        if (isEmpty()) {
+            return "Table is empty.";
+        }
+        String s = "";
+        for (int i = 0; i < capacity; i++) {
+            if (table[i] != null) {
+                s += table[i].getValue() + " ";
+            } else {
+                s += "** ";
+            }
+        }
+        return s;
+    }
+
+    private void ensureCapacity(int arrLength) {
+        if (arrLength > capacity * 0.75) {
+            setCapacity((arrLength * 3) / 2 + 1);
+        }
+    }
+
+    public void setCapacity(int capacity) {
+        if (isEmpty() || capacity <= 0) {
+            capacity = 13;
+        } else if (capacity * 0.75 < count) {
+            capacity = (count * 3) / 2 + 1;
+        }
+        if (this.capacity < capacity) {
+            this.capacity = capacity;
+            overwriteData();
+        }
+    }
+
+    private void overwriteData() {
+        Entry[] copyTable = table;
+        int oldCapacity = copyTable.length;
+        table = new Entry[capacity];
+        count = 0;
+
+        for (int i = 0; i < oldCapacity; i++) {
+            if (copyTable[i] != null) {
+                insert(copyTable[i].getValue());
+            }
+        }
+    }
+
+    public void insert(int value) {
+        ensureCapacity(count + 1);
+        int hashVal = hashFunc(value);
+        while (table[hashVal] != null) {
+            ++hashVal;                 // go to next cell
+            hashVal %= capacity;
+        }
+        table[hashVal] = new Entry(value);
+        count++;
+    }
+
+    public Entry remove(int value) {
+        int hashVal = hashFunc(value);
+        Entry temp = null;
+        while (table[hashVal] != null) {
+            if (table[hashVal].getValue() == value) {
+                temp = table[hashVal]; // save item
+                table[hashVal] = null;
+                count--;
+            }
+            ++hashVal;                 // go to next cell
+            hashVal %= capacity;
+        }
+        return temp;
+    }
+
+    public int indexOf(int value) {
+        int hashVal = hashFunc(value);
+        while (table[hashVal] != null) {
+            if (table[hashVal].getValue() == value) {
+                return hashVal;
+            }
+            ++hashVal;                 // go to next cell
+            hashVal %= capacity;
+        }
+        return -1;
+    }
+}
+
+public class JavaApplication22_2 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        HashTable ht = new HashTable();
+        int r;
+        System.out.println("\"ht.insert(100)\"");
+        ht.insert(100);
+        System.out.println(ht.display());
+        System.out.println("capacity = " + ht.getCapacity() + ", count = " + ht.getCount());
+        System.out.println("");
+
+        System.out.println("\"ht.insert(r)\"");
+        for (int i = 0; i < 10; i++) {
+            r = (int) (Math.random() * 100);
+            ht.insert(r);
+        }
+        ht.insert(100);
+        System.out.println(ht.display());
+        System.out.println("capacity = " + ht.getCapacity() + ", count = " + ht.getCount());
+        System.out.println("");
+
+        System.out.println("\"ht.indexOf(100)\" = " + ht.indexOf(100));
+        System.out.println("");
+
+        System.out.println("\"ht.remove(100)\"");
+        ht.remove(100);
+        System.out.println(ht.display());
+    }
+
+}
+
+run:
+"ht.insert(100)"
+** ** ** ** ** ** ** ** ** 100 ** ** ** 
+capacity = 13, count = 1
+
+"ht.insert(r)"
+0 97 ** ** 100 100 ** ** 72 56 90 27 28 44 30 47 
+capacity = 16, count = 12
+
+"ht.indexOf(100)" = 4
+
+"ht.remove(100)"
+0 97 ** ** ** ** ** ** 72 56 90 27 28 44 30 47 
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
