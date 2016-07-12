@@ -234,9 +234,6 @@ public class JavaFXApplication24_4 extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        scene.setOnKeyPressed((KeyEvent t) -> {
-            myPolygon.start();
-        });
     }
 
     /**
