@@ -635,3 +635,73 @@ public class JavaApplication27_4 {
     }
 
 }
+
+run:
+"da.addDevice(...)"
+index:              0
+device type:        Usb
+manufacturer:       DataTraveler
+model:              SE9
+name:               Kingston
+capacity:           32GB
+count:              5
+speed usb:          16.89MB/s
+
+index:              1
+device type:        PortableHardDrive
+manufacturer:       Transcend
+model:              25M3
+name:               StoreJet
+capacity:           500GB
+count:              1
+spindle speed:      5400rpm
+
+index:              2
+device type:        Dvd
+manufacturer:       Verbatim
+model:              RW
+name:               DVD
+capacity:           4,7 GB
+count:              4
+recording speed:    16x
+
+
+"da.removeElementAt(1)"
+index:              0
+device type:        Usb
+manufacturer:       DataTraveler
+model:              SE9
+name:               Kingston
+capacity:           32GB
+count:              5
+speed usb:          16.89MB/s
+
+index:              1
+device type:        Dvd
+manufacturer:       Verbatim
+model:              RW
+name:               DVD
+capacity:           4,7 GB
+count:              4
+recording speed:    16x
+
+
+"da.changeParameters(1, "...")"
+device type:        Dvd
+manufacturer:       Manufacturer
+model:              Model
+name:               Name
+capacity:           Capacity
+count:              0
+recording speed:    0
+
+"searcher.search("speedUsb", "16.89MB/s")"
+device type:        Usb
+manufacturer:       DataTraveler
+model:              SE9
+name:               Kingston
+capacity:           32GB
+count:              5
+speed usb:          16.89MB/s
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
+
