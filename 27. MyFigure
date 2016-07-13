@@ -1,0 +1,695 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javafxapplication27_2;
+
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.*;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author Oyla
+ */
+abstract class MyFigure {
+
+    public MyFigure() {
+
+    }
+    private String name;
+
+    abstract public double defineArea();
+
+    abstract public double definePerimeter();
+
+    abstract public void draw();
+
+    abstract public String print();
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+}
+///////////////////////////
+
+class MyPoint extends MyFigure {
+
+    private double x;
+    private double y;
+
+    MyPoint() {
+        this(0, 0);
+    }
+
+    MyPoint(double x, double y) {
+        setX(x);
+        setY(y);
+        setName("MyPoint");
+    }
+
+    /**
+     * @return the x
+     */
+    public double getX() {
+        return x;
+    }
+
+    /**
+     * @return the y
+     */
+    public double getY() {
+        return y;
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    /**
+     * @param y the y to set
+     */
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    @Override
+    public void draw() {
+        Line myPoint = new Line(x, y, x, y);
+        JavaFXApplication27_2.root.getChildren().add(myPoint);
+    }
+
+    @Override
+    public double defineArea() {
+        return 0;
+    }
+
+    @Override
+    public double definePerimeter() {
+        return 0;
+    }
+
+    @Override
+    public String print() {
+        return getName() + ": area = " + String.format("%.2f", defineArea()) + " perimeter = " + String.format("%.2f", definePerimeter());
+    }
+
+}
+
+class MyLine extends MyFigure {
+
+    private MyPoint start;
+    private MyPoint end;
+
+    public MyLine() {
+
+    }
+
+    public MyLine(int x0, int y0, int x1, int y1) {
+        setStart(x0, y0);
+        setEnd(x1, y1);
+        setName("myLine");
+    }
+
+    /**
+     * @return the start
+     */
+    public MyPoint getStart() {
+        return start;
+    }
+
+    /**
+     * @return the end
+     */
+    public MyPoint getEnd() {
+        return end;
+    }
+
+    /**
+     * @param start the start to set
+     */
+    public void setStart(int x, int y) {
+        start = new MyPoint(x, y);
+    }
+
+    /**
+     * @param end the end to set
+     */
+    public void setEnd(int x, int y) {
+        end = new MyPoint(x, y);
+    }
+
+    @Override
+    public void draw() {
+        Line myLine = new Line(start.getX(), start.getY(), end.getX(), end.getY());
+        JavaFXApplication27_2.root.getChildren().add(myLine);
+    }
+
+    @Override
+    public double defineArea() {
+        return 0;
+    }
+
+    @Override
+    public double definePerimeter() {
+        return 0;
+    }
+
+    @Override
+    public String print() {
+        return getName() + ": area = " + String.format("%.2f", defineArea()) + " perimeter = " + String.format("%.2f", definePerimeter());
+    }
+}
+
+class MyEllipse extends MyFigure {
+
+    private MyPoint center;
+    private double radiusX;
+    private double radiusY;
+
+    public MyEllipse() {
+
+    }
+
+    public MyEllipse(double radiusX, double radiusY) {
+        this(0, 0, radiusX, radiusY);
+    }
+
+    public MyEllipse(double centerX, double centerY, double radiusX, double radiusY) {
+        setCenter(centerX, centerY);
+        setRadiusX(radiusX);
+        setRadiusY(radiusY);
+        setName("MyEllipse");
+    }
+
+    /**
+     * @return the center
+     */
+    public MyPoint getCenter() {
+        return center;
+    }
+
+    /**
+     * @return the radiusX
+     */
+    public double getRadiusX() {
+        return radiusX;
+    }
+
+    /**
+     * @return the radiusY
+     */
+    public double getRadiusY() {
+        return radiusY;
+    }
+
+    /**
+     * @param centerX the centerX to set
+     */
+    public void setCenter(double centerX, double centerY) {
+        center = new MyPoint(centerX, centerY);
+    }
+
+    /**
+     * @param radiusX the radiusX to set
+     */
+    public void setRadiusX(double radiusX) {
+        this.radiusX = radiusX;
+    }
+
+    /**
+     * @param radiusY the radiusY to set
+     */
+    public void setRadiusY(double radiusY) {
+        this.radiusY = radiusY;
+    }
+
+    @Override
+    public void draw() {
+        Ellipse myEllipse = new Ellipse(center.getX(), center.getY(), radiusX, radiusY);
+        JavaFXApplication27_2.root.getChildren().add(myEllipse);
+    }
+
+    @Override
+    public double defineArea() {
+        return Math.PI * radiusX * radiusY;
+    }
+
+    @Override
+    public double definePerimeter() {
+        return 4 * ((Math.PI * radiusX * radiusY + radiusX - radiusY) / (radiusX + radiusY));
+    }
+
+    @Override
+    public String print() {
+        return getName() + ": area = " + String.format("%.2f", defineArea()) + " perimeter = " + String.format("%.2f", definePerimeter());
+    }
+}
+
+class MyCircle extends MyEllipse {
+
+    public MyCircle() {
+
+    }
+
+    public MyCircle(double radius) {
+        this(0, 0, radius);
+    }
+
+    public MyCircle(double centerX, double centerY, double radius) {
+        super(centerX, centerY, radius, radius);
+        setName("MyCircle");
+    }
+}
+
+class MyPolygon extends MyFigure {
+
+    private MyPoint[] myPointsArray;
+
+    public MyPolygon() {
+
+    }
+
+    public MyPolygon(double... points) {
+        setPoints(points);
+        setName("MyPolygon");
+    }
+
+    /**
+     * @return the points
+     */
+    public double[] getPoints() {
+        int myPointsLength = myPointsArray.length;
+        double[] points = new double[myPointsLength * 2];
+        int y;
+        for (int i = 0; i < myPointsLength; i++) {
+            y = i * 2;
+            points[y] = myPointsArray[i].getX();
+            points[y + 1] = myPointsArray[i].getY();
+        }
+        return points;
+    }
+
+    /**
+     * @param points the points to set
+     */
+    public MyPoint[] setPoints(double[] points) {
+        myPointsArray = new MyPoint[points.length / 2];
+        int pointsLength = myPointsArray.length;
+        int y;
+        for (int i = 0; i < pointsLength; i++) {
+            y = i * 2;
+            myPointsArray[i] = new MyPoint(points[y], points[y + 1]);
+        }
+        return myPointsArray;
+    }
+
+    @Override
+    public void draw() {
+        Polygon myPolygon = new Polygon(getPoints());
+        JavaFXApplication27_2.root.getChildren().add(myPolygon);
+    }
+
+    @Override
+    public double defineArea() {
+        double s = 0;
+        int y;
+        int l = myPointsArray.length;
+        for (int i = 0; i < l; i++) {
+            y = i + 1;
+            if (y == l) {
+                y = 0;
+            }
+            s += myPointsArray[i].getX() * myPointsArray[y].getY();
+            s -= myPointsArray[i].getY() * myPointsArray[y].getX();
+        }
+        return Math.abs(s / 2);
+    }
+
+    @Override
+    public double definePerimeter() {
+        double p = 0;
+        int y;
+        int l = myPointsArray.length;
+        for (int i = 0; i < l; i++) {
+            y = i + 1;
+            if (y == l) {
+                y = 0;
+            }
+            p += Math.sqrt(Math.pow(Math.abs(myPointsArray[i].getX() - myPointsArray[y].getX()), 2) + Math.pow(Math.abs(myPointsArray[i].getY() - myPointsArray[y].getY()), 2));
+        }
+        return p;
+    }
+
+    @Override
+    public String print() {
+        return getName() + ": area = " + String.format("%.2f", defineArea()) + " perimeter = " + String.format("%.2f", definePerimeter());
+    }
+}
+
+class MyTriangle extends MyPolygon {
+
+    public MyTriangle() {
+
+    }
+
+    public MyTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("MyTriangle");
+    }
+}
+
+class MyQuadrangle extends MyPolygon {
+
+    public MyQuadrangle() {
+
+    }
+
+    public MyQuadrangle(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        super(x0, y0, x1, y1, x2, y2, x3, y3);
+        setName("MyQuadrangle");
+    }
+}
+
+class MyParallelogram extends MyQuadrangle {
+
+    public MyParallelogram() {
+
+    }
+
+    public MyParallelogram(double x0, double y0, double x1, double y1, double w) {
+        this(x0, y0, x1, y1, (x1 + w), y1, (x0 + w), y0);
+    }
+
+    public MyParallelogram(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        super(x0, y0, x1, y1, x2, y2, x3, y3);
+        setName("MyParallelogram");
+    }
+}
+
+class MyTrapeze extends MyQuadrangle {
+
+    public MyTrapeze() {
+
+    }
+
+    public MyTrapeze(double x0, double y0, double x1, double y1, double w) {
+        this(x0, y0, x1, y1, (x1 + w), y1, (x0 + (x1 - x0) * 2 + w), y0);
+    }
+
+    public MyTrapeze(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        super(x0, y0, x1, y1, x2, y2, x3, y3);
+        setName("MyTrapeze");
+    }
+
+}
+
+class MyDeltoid extends MyQuadrangle {
+
+    public MyDeltoid() {
+    }
+
+    public MyDeltoid(double x0, double y0, double x1, double y1, double h) {
+        this(x0, y0, x1, y1, (2 * x1 - x0), y0, x1, (y1 + h));
+    }
+
+    public MyDeltoid(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        super(x0, y0, x1, y1, x2, y2, x3, y3);
+        setName("MyDeltoid");
+    }
+
+}
+
+class MyRectangle extends MyParallelogram {
+
+    public MyRectangle() {
+    }
+
+    public MyRectangle(double x0, double y0, double w, double h) {
+        this(x0, y0, (x0 + w), y0, (x0 + w), (y0 + h), x0, (y0 + h));
+    }
+
+    public MyRectangle(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        super(x0, y0, x1, y1, x2, y2, x3, y3);
+        setName("MyRectangle");
+    }
+
+}
+
+class MyRhombus extends MyParallelogram {
+
+    public MyRhombus() {
+    }
+
+    public MyRhombus(double x0, double y0, double w, double h) {
+        this(x0, y0, (x0 + w / 2), (y0 - h / 2), (x0 + w), y0, (x0 + w / 2), (y0 + h / 2));
+    }
+
+    public MyRhombus(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        super(x0, y0, x1, y1, x2, y2, x3, y3);
+        setName("MyRhombus");
+    }
+
+}
+
+class MySquare extends MyRectangle {
+
+    public MySquare() {
+
+    }
+
+    public MySquare(double x0, double y0, double l) {
+        this(x0, y0, (x0 + l), y0, (x0 + l), (y0 + l), x0, (y0 + l));
+    }
+
+    public MySquare(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        super(x0, y0, x1, y1, x2, y2, x3, y3);
+        setName("MySquare");
+    }
+
+}
+
+class UsualAcuteAngledTriangle extends MyTriangle {
+
+    public UsualAcuteAngledTriangle() {
+
+    }
+
+    public UsualAcuteAngledTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("UsualAcuteAngledTriangle");
+    }
+
+}
+
+class IsoscelesAcuteAngledTriangle extends MyTriangle {
+
+    public IsoscelesAcuteAngledTriangle() {
+
+    }
+
+    public IsoscelesAcuteAngledTriangle(double x0, double y0, double x1, double y1) {
+        this(x0, y0, x1, y1, (2 * x1 - x0), y0);
+    }
+
+    public IsoscelesAcuteAngledTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("IsoscelesAcuteAngledTriangle");
+    }
+
+}
+
+class EquilateralAcuteAngledTriangle extends MyTriangle {
+
+    public EquilateralAcuteAngledTriangle() {
+
+    }
+
+    public EquilateralAcuteAngledTriangle(double x0, double y0, double l) {
+        this(x0, y0, (x0 + l / 2), (y0 - Math.sqrt(l * l - l * l / 4)), (x0 + l), y0);
+    }
+
+    public EquilateralAcuteAngledTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("EquilateralAcuteAngledTriangle");
+    }
+
+}
+
+class UsualObtuseTriangle extends MyTriangle {
+
+    public UsualObtuseTriangle() {
+
+    }
+
+    public UsualObtuseTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("UsualObtuseTriangle");
+    }
+}
+
+class ObtuseIsoscelesTriangle extends MyTriangle {
+
+    public ObtuseIsoscelesTriangle() {
+
+    }
+
+    public ObtuseIsoscelesTriangle(double x0, double y0, double x1, double y1) {
+        this(x0, y0, x1, y1, (2 * x1 - x0), y0);
+    }
+
+    public ObtuseIsoscelesTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("ObtuseIsoscelesTriangle");
+    }
+
+}
+
+class UsualRectangularTriangle extends MyTriangle {
+
+    public UsualRectangularTriangle() {
+
+    }
+
+    public UsualRectangularTriangle(double x0, double y0, double x1, double y1) {
+        this(x0, y0, x1, y1, x0, y1);
+    }
+
+    public UsualRectangularTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("UsualRectangularTriangle");
+    }
+
+}
+
+class IsoscelesRectangularTriangle extends MyTriangle {
+
+    public IsoscelesRectangularTriangle() {
+
+    }
+
+    public IsoscelesRectangularTriangle(double x0, double y0, double l) {
+        this(x0, y0, (x0 + l / 2), (y0 - l / 2), (x0 + l), y0);
+    }
+
+    public IsoscelesRectangularTriangle(double x0, double y0, double x1, double y1, double x2, double y2) {
+        super(x0, y0, x1, y1, x2, y2);
+        setName("IsoscelesRectangularTriangle");
+    }
+
+}
+
+public class JavaFXApplication27_2 extends Application {
+
+    public static final Group root = new Group();
+    public static final Canvas canvas = new Canvas(360, 370);
+    public static final GraphicsContext gc = canvas.getGraphicsContext2D();
+
+    @Override
+    public void start(Stage primaryStage) {
+        MyPoint myPoint = new MyPoint(10, 10);
+        myPoint.draw();
+        System.out.println(myPoint.print());
+
+        MyLine myLine = new MyLine(20, 10, 350, 10);
+        myLine.draw();
+        System.out.println(myLine.print());
+
+        MyEllipse myEllipse = new MyEllipse(50, 30, 40, 10);
+        myEllipse.draw();
+        System.out.println(myEllipse.print());
+
+        MyCircle myCircle = new MyCircle(50, 90, 40);
+        myCircle.draw();
+        System.out.println(myCircle.print());
+
+        MyPolygon myPolygon = new MyPolygon(50.0, 140.0, 10.0, 160.0, 10.0, 200.0, 50.0, 220.0, 90.0, 200.0, 90.0, 160.0);
+        myPolygon.draw();
+        System.out.println(myPolygon.print());
+
+        MyTriangle myTriangle = new MyTriangle(50.0, 240.0, 10.0, 260.0, 70.0, 290.0);
+        myTriangle.draw();
+        System.out.println(myTriangle.print());
+
+        MyQuadrangle myQuadrangle = new MyQuadrangle(20.0, 300.0, 90.0, 310.0, 60.0, 340.0, 10.0, 350.0);
+        myQuadrangle.draw();
+        System.out.println(myQuadrangle.print());
+
+        MyParallelogram myParallelogram = new MyParallelogram(120, 70, 140, 25, 80);
+        myParallelogram.draw();
+        System.out.println(myParallelogram.print());
+
+        MyTrapeze myTrapeze = new MyTrapeze(120, 130, 150, 80, 40);
+        myTrapeze.draw();
+        System.out.println(myTrapeze.print());
+
+        MyDeltoid myDeltoid = new MyDeltoid(120, 170, 170, 140, 80);
+        myDeltoid.draw();
+        System.out.println(myDeltoid.print());
+
+        MyRectangle myRectangle = new MyRectangle(120, 230, 100, 40);
+        myRectangle.draw();
+        System.out.println(myRectangle.print());
+
+        MyRhombus myRhombus = new MyRhombus(120, 300, 100, 40);
+        myRhombus.draw();
+        System.out.println(myRhombus.print());
+
+        MySquare mySquare = new MySquare(155, 330, 30);
+        mySquare.draw();
+        System.out.println(mySquare.print());
+
+        UsualAcuteAngledTriangle usualAcuteAngledTriangle = new UsualAcuteAngledTriangle(250.0, 40.0, 310.0, 70.0, 290.0, 20.0);
+        usualAcuteAngledTriangle.draw();
+        System.out.println(usualAcuteAngledTriangle.print());
+
+        IsoscelesAcuteAngledTriangle isoscelesAcuteAngledTriangle = new IsoscelesAcuteAngledTriangle(250, 130, 280, 65);
+        isoscelesAcuteAngledTriangle.draw();
+        System.out.println(isoscelesAcuteAngledTriangle.print());
+
+        EquilateralAcuteAngledTriangle equilateralAcuteAngledTriangle = new EquilateralAcuteAngledTriangle(250, 190, 60);
+        equilateralAcuteAngledTriangle.draw();
+        System.out.println(equilateralAcuteAngledTriangle.print());
+
+        UsualObtuseTriangle usualObtuseTriangle = new UsualObtuseTriangle(230, 200, 330, 220, 270, 230);
+        usualObtuseTriangle.draw();
+        System.out.println(usualObtuseTriangle.print());
+
+        ObtuseIsoscelesTriangle obtuseIsoscelesTriangle = new ObtuseIsoscelesTriangle(230, 265, 290, 240);
+        obtuseIsoscelesTriangle.draw();
+        System.out.println(obtuseIsoscelesTriangle.print());
+
+        UsualRectangularTriangle usualRectangularTriangle = new UsualRectangularTriangle(250, 275, 340, 300);
+        usualRectangularTriangle.draw();
+        System.out.println(usualRectangularTriangle.print());
+
+        IsoscelesRectangularTriangle isoscelesRectangularTriangle = new IsoscelesRectangularTriangle(250, 350, 80);
+        isoscelesRectangularTriangle.draw();
+        System.out.println(isoscelesRectangularTriangle.print());
+
+        root.getChildren().add(canvas);
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+}
