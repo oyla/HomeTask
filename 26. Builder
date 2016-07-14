@@ -1,0 +1,325 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication26_1;
+
+/**
+ *
+ * @author user
+ */
+/* Product */
+class Car {
+
+    private String name;
+    private String frame;
+    private int engine;
+    private int wheels;
+    private String transmission;
+
+    Car() {
+
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the frame
+     */
+    public String getFrame() {
+        return frame;
+    }
+
+    /**
+     * @return the engine
+     */
+    public int getEngine() {
+        return engine;
+    }
+
+    /**
+     * @return the wheels
+     */
+    public int getWheels() {
+        return wheels;
+    }
+
+    /**
+     * @return the transmission
+     */
+    public String getTransmission() {
+        return transmission;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @param frame the frame to set
+     */
+    public void setFrame(String frame) {
+        this.frame = frame;
+    }
+
+    /**
+     * @param engine the engine to set
+     */
+    public void setEngine(int engine) {
+        this.engine = engine;
+    }
+
+    /**
+     * @param wheels the wheels to set
+     */
+    public void setWheels(int wheels) {
+        this.wheels = wheels;
+    }
+
+    /**
+     * @param transmission the transmission to set
+     */
+    public void setTransmission(String transmission) {
+        this.transmission = transmission;
+    }
+
+    public String printTitle() {
+        String s = String.format("%-13s", "name");
+        s += " | ";
+        s += String.format("%-9s", "frame");
+        s += " | ";
+        s += String.format("%-6s", "engine");
+        s += " | ";
+        s += String.format("%-6s", "wheels");
+        s += " | ";
+        s += "transmission";
+        return s;
+    }
+
+    public String print() {
+        String s = String.format("%-13s", name);
+        s += " | ";
+        s += String.format("%-9s", frame);
+        s += " | ";
+        s += String.format("%-6d", engine);
+        s += " | ";
+        s += String.format("%-6d", wheels);
+        s += " | ";
+        s += transmission;
+        return s;
+    }
+}
+
+/* Abstract Builder */
+abstract class CarBuilder {
+
+    protected Car car;
+
+    public CarBuilder() {
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void createNewCarProduct() {
+        car = new Car();
+    }
+
+    public abstract void buildName();
+
+    public abstract void buildFrame();
+
+    public abstract void buildEngine();
+
+    public abstract void buildWheels();
+
+    public abstract void buildTransmission();
+
+}
+
+/* Concrete Builder */
+class DaewooLanosCarBuilder extends CarBuilder {
+
+    @Override
+    public void buildName() {
+        car.setName("Daewoo Lanos");
+    }
+
+    @Override
+    public void buildFrame() {
+        car.setFrame("Sedan");
+    }
+
+    @Override
+    public void buildEngine() {
+        car.setEngine(98);
+    }
+
+    @Override
+    public void buildWheels() {
+        car.setWheels(13);
+    }
+
+    @Override
+    public void buildTransmission() {
+        car.setTransmission("5 Manual");
+    }
+
+}
+
+/* Concrete Builder */
+class FordProbeCarBuilder extends CarBuilder {
+
+    @Override
+    public void buildName() {
+        car.setName("Ford Probe");
+    }
+
+    @Override
+    public void buildFrame() {
+        car.setFrame("Coupe");
+    }
+
+    @Override
+    public void buildEngine() {
+        car.setEngine(160);
+    }
+
+    @Override
+    public void buildWheels() {
+        car.setWheels(14);
+    }
+
+    @Override
+    public void buildTransmission() {
+        car.setTransmission("4 Auto");
+    }
+
+}
+
+/* Concrete Builder */
+class UazPatriotCarBuilder extends CarBuilder {
+
+    @Override
+    public void buildName() {
+        car.setName("UAZ Patriot");
+    }
+
+    @Override
+    public void buildFrame() {
+        car.setFrame("Wagon");
+    }
+
+    @Override
+    public void buildEngine() {
+        car.setEngine(120);
+    }
+
+    @Override
+    public void buildWheels() {
+        car.setWheels(16);
+    }
+
+    @Override
+    public void buildTransmission() {
+        car.setTransmission("5 Manual");
+    }
+
+}
+
+/* Director */
+class Shop {
+
+    private CarBuilder carBuilder;
+
+    public void setCarBuilder(CarBuilder carBuilder) {
+        this.carBuilder = carBuilder;
+    }
+
+    public Car getCar() {
+        return carBuilder.getCar();
+    }
+
+    public void constructCar() {
+        carBuilder.createNewCarProduct();
+        carBuilder.buildName();
+        carBuilder.buildFrame();
+        carBuilder.buildEngine();
+        carBuilder.buildWheels();
+        carBuilder.buildTransmission();
+    }
+}
+
+/* Concrete Builder */
+class HyundaiGetzCarBuilder extends CarBuilder {
+
+    @Override
+    public void buildName() {
+        car.setName("Hyundai Getz");
+    }
+
+    @Override
+    public void buildFrame() {
+        car.setFrame("Hatchback");
+    }
+
+    @Override
+    public void buildEngine() {
+        car.setEngine(66);
+    }
+
+    @Override
+    public void buildWheels() {
+        car.setWheels(13);
+    }
+
+    @Override
+    public void buildTransmission() {
+        car.setTransmission("4 Auto");
+    }
+
+}
+
+public class JavaApplication26_1 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Shop[] shopProducts = new Shop[4];
+        shopProducts[0] = new Shop();
+        shopProducts[0].setCarBuilder(new DaewooLanosCarBuilder());
+        shopProducts[1] = new Shop();
+        shopProducts[1].setCarBuilder(new FordProbeCarBuilder());
+        shopProducts[2] = new Shop();
+        shopProducts[2].setCarBuilder(new UazPatriotCarBuilder());
+        shopProducts[3] = new Shop();
+        shopProducts[3].setCarBuilder(new HyundaiGetzCarBuilder());
+        for (int i = 0; i < shopProducts.length; i++) {
+            shopProducts[i].constructCar();
+            if (i == 0) {
+                System.out.println(shopProducts[i].getCar().printTitle());
+            }
+            System.out.println(shopProducts[i].getCar().print());
+        }
+    }
+
+}
+
+run:
+name          | frame     | engine | wheels | transmission
+Daewoo Lanos  | Sedan     | 98     | 13     | 5 Manual
+Ford Probe    | Coupe     | 160    | 14     | 4 Auto
+UAZ Patriot   | Wagon     | 120    | 16     | 5 Manual
+Hyundai Getz  | Hatchback | 66     | 13     | 4 Auto
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
