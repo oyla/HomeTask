@@ -1,0 +1,220 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication26_2;
+
+/**
+ *
+ * @author user
+ */
+abstract class BeverageBase {
+
+    protected String description = "";
+
+    public String getDescription() {
+        return description;
+    }
+
+    public abstract double getCost();
+}
+
+class BlackTea extends BeverageBase {
+
+    public BlackTea() {
+        description = "Black tea from teabag";
+    }
+
+    @Override
+    public double getCost() {
+        return 5;
+    }
+}
+
+class GreenTea extends BeverageBase {
+
+    public GreenTea() {
+        description = "Green leaf tea";
+    }
+
+    @Override
+    public double getCost() {
+        return 8;
+    }
+}
+
+class StrongCoffe extends BeverageBase {
+
+    public StrongCoffe() {
+        description = "Strong coffee";
+    }
+
+    @Override
+    public double getCost() {
+        return 12;
+    }
+}
+
+class Espresso extends BeverageBase {
+
+    private BeverageBase beverage;
+
+    public Espresso() {
+        beverage = new SmallPortion(new StrongCoffe());
+        description = beverage.getDescription();
+    }
+
+    @Override
+    public double getCost() {
+        return beverage.getCost();
+    }
+}
+
+//////////////////////////////////////////////////////////////////
+abstract class CondimentsDecoratorBase extends BeverageBase {
+
+}
+
+class MilkCondiment extends CondimentsDecoratorBase {
+
+    private BeverageBase beverage;
+
+    public MilkCondiment(BeverageBase beverage) {
+        this.beverage = beverage;
+        description = this.beverage.getDescription() + " + Milk";
+    }
+
+    @Override
+    public double getCost() {
+        return beverage.getCost() + 3;
+    }
+}
+
+class ChocolateCondiment extends CondimentsDecoratorBase {
+
+    private BeverageBase beverage;
+
+    public ChocolateCondiment(BeverageBase beverage) {
+        this.beverage = beverage;
+        description = this.beverage.getDescription() + " + Chocolate";
+    }
+
+    @Override
+    public double getCost() {
+        return beverage.getCost() + 4;
+    }
+}
+
+class SugarCondiment extends CondimentsDecoratorBase {
+
+    private BeverageBase beverage;
+
+    public SugarCondiment(BeverageBase beverage) {
+        this.beverage = beverage;
+        description = beverage.getDescription() + " + Sugar";
+    }
+
+    @Override
+    public double getCost() {
+        return beverage.getCost() + 1;
+    }
+}
+
+//////////////////////////////////////////////////////////////////
+abstract class PortionBase extends BeverageBase {
+
+}
+
+class SmallPortion extends PortionBase {
+
+    private BeverageBase beverage;
+
+    public SmallPortion(BeverageBase beverage) {
+        this.beverage = beverage;
+        description = "Small portion of " + beverage.getDescription();
+    }
+
+    @Override
+    public double getCost() {
+        return (int) (beverage.getCost() * 0.67);
+    }
+
+}
+
+class MediumPortion extends PortionBase {
+
+    private BeverageBase beverage;
+
+    public MediumPortion(BeverageBase beverage) {
+        this.beverage = beverage;
+        description = "Medium portion of " + beverage.getDescription();
+    }
+
+    @Override
+    public double getCost() {
+        return beverage.getCost();
+    }
+
+}
+
+class LargePortion extends PortionBase {
+
+    private BeverageBase beverage;
+
+    public LargePortion(BeverageBase beverage) {
+        this.beverage = beverage;
+        description = "Large portion of " + beverage.getDescription();
+    }
+
+    @Override
+    public double getCost() {
+        return (int) (beverage.getCost() * 1.33);
+    }
+
+}
+////////////////////////////////////////////////////////////////////////
+
+public class JavaApplication26_2 {
+
+    static void printBeverage(BeverageBase beverage) {
+        System.out.println("Beverage: " + beverage.getDescription()
+                + ", Cost: " + beverage.getCost());
+    }
+
+    public static void main(String args[]) throws Exception {
+        BeverageBase strongCoffe = new StrongCoffe();
+        BeverageBase blackTea = new BlackTea();
+        BeverageBase greenTea = new GreenTea();
+
+        printBeverage(strongCoffe);
+        printBeverage(blackTea);
+        printBeverage(greenTea);
+
+        System.out.println("========================");
+
+        BeverageBase capuccino = new SugarCondiment(new MilkCondiment(new Espresso()));
+        printBeverage(capuccino);
+
+        BeverageBase mediumGreenTeaWithSugar = new MediumPortion(new SugarCondiment(new GreenTea()));
+        printBeverage(mediumGreenTeaWithSugar);
+
+        BeverageBase smallGreenTeaWithSugar = new SmallPortion(new SugarCondiment(new GreenTea()));
+        printBeverage(smallGreenTeaWithSugar);
+
+        BeverageBase largeBlackTeaWithMilkAndSugar = new LargePortion(new MilkCondiment(new SugarCondiment(new BlackTea())));
+        printBeverage(largeBlackTeaWithMilkAndSugar);
+
+    }
+}
+
+run:
+Beverage: Strong coffee, Cost: 12.0
+Beverage: Black tea from teabag, Cost: 5.0
+Beverage: Green leaf tea, Cost: 8.0
+========================
+Beverage: Small portion of Strong coffee + Milk + Sugar, Cost: 12.0
+Beverage: Medium portion of Green leaf tea + Sugar, Cost: 9.0
+Beverage: Small portion of Green leaf tea + Sugar, Cost: 6.0
+Beverage: Large portion of Black tea from teabag + Sugar + Milk, Cost: 11.0
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
