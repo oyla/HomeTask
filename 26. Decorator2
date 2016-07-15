@@ -1,0 +1,561 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication26_3;
+
+/**
+ *
+ * @author Lubc_iz61
+ */
+abstract class Personage {
+
+    /**
+     * @return the name
+     */
+    abstract public String getName();
+
+    /**
+     * @return the attack
+     */
+    abstract public int getAttack();
+
+    /**
+     * @return the speed
+     */
+    abstract public int getSpeed();
+
+    /**
+     * @return the health
+     */
+    abstract public int getHealth();
+
+    /**
+     * @return the protection
+     */
+    abstract public int getProtection();
+
+    /**
+     * @return the protection
+     */
+    abstract public String getParent();
+
+    public String printTitle() {
+        String s = String.format("%-12s", "name");
+        s += " | ";
+        s += String.format("%-17s", "parent profession");
+        s += " | ";
+        s += String.format("%-6s", "attack");
+        s += " | ";
+        s += String.format("%-5s", "speed");
+        s += " | ";
+        s += String.format("%-6s", "health");
+        s += " | ";
+        s += "protection";
+        return s;
+    }
+
+    public String print() {
+        String s = String.format("%-12s", getName());
+        s += " | ";
+        s += String.format("%-17s", getParent());
+        s += " | ";
+        s += String.format("%-6s", getAttack());
+        s += " | ";
+        s += String.format("%-5s", getSpeed());
+        s += " | ";
+        s += String.format("%-6s", getHealth());
+        s += " | ";
+        s += getProtection();
+        return s;
+    }
+
+}
+
+class Person extends Personage {
+
+    Person() {
+
+    }
+
+    @Override
+    public String getName() {
+        return "Person";
+    }
+
+    @Override
+    public int getAttack() {
+        return 20;
+    }
+
+    @Override
+    public int getSpeed() {
+        return 20;
+    }
+
+    @Override
+    public int getHealth() {
+        return 150;
+    }
+
+    @Override
+    public int getProtection() {
+        return 0;
+    }
+
+    @Override
+    public String getParent() {
+        return "-";
+    }
+
+}
+
+class Warrior extends Personage {
+
+    private Person parent;
+
+    Warrior(Person parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "Warrior";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 20;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() + 10;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() + 50;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() + 20;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+
+}
+
+class SwordBearer extends Personage {
+
+    private Warrior parent;
+
+    public SwordBearer(Warrior parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "Sword Bearer";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 40;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() - 10;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() + 50;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() + 40;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+
+}
+
+class Archer extends Personage {
+
+    private Warrior parent;
+
+    public Archer(Warrior parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "Archer";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 20;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() + 20;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() + 50;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() + 10;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+}
+
+class Rider extends Personage {
+
+    private SwordBearer parent;
+
+    public Rider(SwordBearer parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "Rider";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() - 10;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() + 40;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() + 200;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() + 100;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+}
+
+class Elf extends Personage {
+
+    public Elf() {
+
+    }
+
+    @Override
+    public String getName() {
+        return "Elf";
+    }
+
+    @Override
+    public int getAttack() {
+        return 15;
+    }
+
+    @Override
+    public int getSpeed() {
+        return 30;
+    }
+
+    @Override
+    public int getHealth() {
+        return 100;
+    }
+
+    @Override
+    public int getProtection() {
+        return 0;
+    }
+
+    @Override
+    public String getParent() {
+        return "-";
+    }
+}
+
+class ElfWarrior extends Personage {
+
+    private Elf parent;
+
+    public ElfWarrior(Elf parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "ElfWarrior";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 20;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() - 10;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() + 100;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() + 20;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+}
+
+class ElfWizard extends Personage {
+
+    private Elf parent;
+
+    public ElfWizard(Elf parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "ElfWizard";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 10;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() + 10;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() - 50;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() + 10;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+}
+
+class Arbalester extends Personage {
+
+    private ElfWarrior parent;
+
+    public Arbalester(ElfWarrior parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "Arbalester";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 20;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() + 10;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() + 50;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() - 10;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+}
+
+class EvilWizard extends Personage {
+
+    private ElfWizard parent;
+
+    public EvilWizard(ElfWizard parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "EvilWizard";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 70;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() + 20;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth();
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection();
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+}
+
+class GoodWizard extends Personage {
+
+    private ElfWizard parent;
+
+    public GoodWizard(ElfWizard parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getName() {
+        return "GoodWizard";
+    }
+
+    @Override
+    public int getAttack() {
+        return parent.getAttack() + 50;
+    }
+
+    @Override
+    public int getSpeed() {
+        return parent.getSpeed() + 30;
+    }
+
+    @Override
+    public int getHealth() {
+        return parent.getHealth() + 100;
+    }
+
+    @Override
+    public int getProtection() {
+        return parent.getProtection() + 30;
+    }
+
+    @Override
+    public String getParent() {
+        return parent.getName();
+    }
+}
+
+public class JavaApplication26_3 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Person person = new Person();
+        System.out.println(person.printTitle());
+        System.out.println(person.print());
+
+        Warrior warrior = new Warrior(person);
+        System.out.println(warrior.print());
+
+        SwordBearer swordBearer = new SwordBearer(warrior);
+        System.out.println(swordBearer.print());
+
+        Archer archer = new Archer(warrior);
+        System.out.println(archer.print());
+
+        Rider rider = new Rider(swordBearer);
+        System.out.println(rider.print());
+
+        Elf elf = new Elf();
+        System.out.println(elf.print());
+
+        ElfWarrior elfWarrior = new ElfWarrior(elf);
+        System.out.println(elfWarrior.print());
+
+        ElfWizard elfWizard = new ElfWizard(elf);
+        System.out.println(elfWizard.print());
+
+        Arbalester arbalester = new Arbalester(elfWarrior);
+        System.out.println(arbalester.print());
+
+        EvilWizard evilWizard = new EvilWizard(elfWizard);
+        System.out.println(evilWizard.print());
+
+        GoodWizard goodWizard = new GoodWizard(elfWizard);
+        System.out.println(goodWizard.print());
+
+    }
+
+}
+
+run:
+name         | parent profession | attack | speed | health | protection
+Person       | -                 | 20     | 20    | 150    | 0
+Warrior      | Person            | 40     | 30    | 200    | 20
+Sword Bearer | Warrior           | 80     | 20    | 250    | 60
+Archer       | Warrior           | 60     | 50    | 250    | 30
+Rider        | Sword Bearer      | 70     | 60    | 450    | 160
+Elf          | -                 | 15     | 30    | 100    | 0
+ElfWarrior   | Elf               | 35     | 20    | 200    | 20
+ElfWizard    | Elf               | 25     | 40    | 50     | 10
+Arbalester   | ElfWarrior        | 55     | 30    | 250    | 10
+EvilWizard   | ElfWizard         | 95     | 60    | 50     | 10
+GoodWizard   | ElfWizard         | 75     | 70    | 150    | 40
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
