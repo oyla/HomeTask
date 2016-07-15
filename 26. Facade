@@ -1,0 +1,376 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication26_4;
+
+import java.util.Random;
+
+/**
+ *
+ * @author user
+ */
+class VideoCard {
+
+    Random r = new Random();
+
+    public void startVideoCard() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Видеокарта: запуск не осуществлен.");
+        }
+        System.out.println("Видеокарта: запуск.");
+    }
+
+    public void checkConnectionMonitor() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Видеокарта: связь с монитором не установлена.");
+        }
+        System.out.println("Видеокарта: проверка связи с монитором.");
+    }
+
+    public void conclusionRamData() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Видеокарта: данные об оперативной памяти не получены.");
+        }
+        System.out.println("Видеокарта: вывод данных об оперативной памяти.");
+    }
+
+    public void conclusionOpticalDriveData() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Видеокарта: информации об устройстве чтения дисков не получена.");
+        }
+        System.out.println("Видеокарта: вывод информации об устройстве чтения дисков.");
+    }
+
+    public void conclusionHddData() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Видеокарта: данные о винчестере не получены.");
+        }
+        System.out.println("Видеокарта: вывод данных о винчестере.");
+    }
+
+    public void conclusionFarewellMessage() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Видеокарта: данные прощальное сообщение не выведены.");
+        }
+        System.out.println("Видеокарта: вывести на монитор данные прощальное сообщение.");
+    }
+
+}
+
+class Ram {
+
+    Random r = new Random();
+
+    public void startDevices() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Оперативная память: устройства не запущены.");
+        }
+        System.out.println("Оперативная память: запуск устройств.");
+    }
+
+    public void analysisMemory() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Оперативная память: не работает.");
+        }
+        System.out.println("Оперативная память: анализ памяти.");
+    }
+
+    public void clearMemory() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Оперативная память: память не очищена.");
+        }
+        System.out.println("Оперативная память: очистка памяти.");
+    }
+}
+
+class OpticalDrive {
+
+    Random r = new Random();
+
+    public void startOpticalDrive() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Устройство чтения оптических дисков: не запущено.");
+        }
+        System.out.println("Устройство чтения оптических дисков: запуск.");
+    }
+
+    public void checkDisk() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Устройство чтения оптических дисков: диск не обнаружен.");
+        }
+        System.out.println("Устройство чтения оптических дисков: проверка наличия диска.");
+    }
+
+    public void returnStartPosition() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Устройство чтения оптических дисков: в исходную позицию не возвращается.");
+        }
+        System.out.println("Устройство чтения оптических дисков: вернуть в исходную позицию.");
+    }
+}
+
+class PowerSupply {
+
+    Random r = new Random();
+
+    public void startSupplyPower() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: не подается питание.");
+        }
+        System.out.println("Блок питания: подать питание.");
+    }
+
+    public void stopSupplyPower() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: не выключен.");
+        }
+        System.out.println("Блок питания: выключение.");
+    }
+
+    public void startSupplyPowerVideoCard() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: не подается питание на видеокарту.");
+        }
+        System.out.println("Блок питания: подать питание на видеокарту.");
+    }
+
+    public void stopSupplyPowerVideoCard() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: подается питание на видеокарту.");
+        }
+        System.out.println("Блок питания: прекратить питание видео карты.");
+    }
+
+    public void startSupplyPowerRam() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: не подается питание на оперативную память.");
+        }
+        System.out.println("Блок питания: подать питание на оперативную память.");
+    }
+
+    public void stopSupplyPowerRam() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: подается питание на оперативную память.");
+        }
+        System.out.println("Блок питания: прекратить питание оперативной памяти.");
+    }
+
+    public void startSupplyPowerOpticalDrive() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: не подается питание на устройство чтения дисков.");
+        }
+        System.out.println("Блок питания: подать питание на устройство чтения дисков.");
+    }
+
+    public void stopSupplyPowerOpticalDrive() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: подается питание на устройство чтения дисков.");
+        }
+        System.out.println("Блок питания: прекратить питание устройства чтения дисков.");
+    }
+
+    public void startSupplyPowerHdd() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: не подается питание на винчестер.");
+        }
+        System.out.println("Блок питания: подать питание на винчестер.");
+    }
+
+    public void stopSupplyPowerHdd() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Блок питания: подается питание на винчестер.");
+        }
+        System.out.println("Блок питания: прекратить питание винчестера.");
+    }
+}
+
+class Sensors {
+
+    Random r = new Random();
+
+    public void checkVoltage() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Датчики: нет напряжения.");
+        }
+        System.out.println("Датчики: проверить напряжение.");
+    }
+
+    public void checkTemperaturePowerSupply() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Датчики: температура в блоке питания выше максимальной.");
+        }
+        System.out.println("Датчики: проверить температуру в блоке питания.");
+    }
+
+    public void checkTemperatureVideoCard() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Датчики: температура в видеокарте выше максимальной.");
+
+        }
+        System.out.println("Датчики: проверить температуру в видеокарте.");
+    }
+
+    public void checkTemperatureRam() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Датчики: температура в оперативной памяти выше максимальной.");
+
+        }
+        System.out.println("Датчики: проверить температуру в оперативной памяти.");
+    }
+
+    public void checkAllTemperature() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Датчики: температура выше максимальной.");
+
+        }
+        System.out.println("Датчики: проверить температуру всех систем.");
+    }
+}
+
+class Hdd {
+
+    Random r = new Random();
+
+    public void startHdd() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Винчестер: не запущен.");
+        }
+        System.out.println("Винчестер: запуск.");
+    }
+
+    public void checkBootSector() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Винчестер: загрузочный сектор не обнаружен.");
+        }
+        System.out.println("Винчестер: проверка загрузочного сектора");
+    }
+
+    public void stopHdd() throws Exception {
+        if (r.nextInt(10) == 9) {
+            throw new Exception("Винчестер: устройство не остановлено.");
+        }
+        System.out.println("Винчестер: остановка устройства.");
+    }
+}
+
+class Computer {
+
+    PowerSupply powerSupply = new PowerSupply();
+    VideoCard videoCard = new VideoCard();
+    Sensors sensors = new Sensors();
+    Ram ram = new Ram();
+    OpticalDrive opticalDrive = new OpticalDrive();
+    Hdd hdd = new Hdd();
+
+    public void turnOn() throws Exception {
+        powerSupply.startSupplyPower();
+        sensors.checkVoltage();
+        sensors.checkTemperaturePowerSupply();
+        sensors.checkTemperatureVideoCard();
+
+        powerSupply.startSupplyPowerVideoCard();
+        videoCard.startVideoCard();
+        videoCard.checkConnectionMonitor();
+        sensors.checkTemperatureRam();
+
+        powerSupply.startSupplyPowerRam();
+        ram.startDevices();
+        ram.analysisMemory();
+        videoCard.conclusionRamData();
+
+        powerSupply.startSupplyPowerOpticalDrive();
+        opticalDrive.startOpticalDrive();
+        opticalDrive.checkDisk();
+        videoCard.conclusionOpticalDriveData();
+
+        powerSupply.startSupplyPowerHdd();
+        hdd.startHdd();
+        hdd.checkBootSector();
+        videoCard.conclusionHddData();
+        sensors.checkAllTemperature();
+
+        System.out.println("------------------");
+        System.out.println("КОМПЬЮТЕР ВКЛЮЧЕН.");
+        System.out.println("------------------");
+    }
+
+    public void turnOff() throws Exception {
+        hdd.stopHdd();
+        ram.clearMemory();
+        ram.analysisMemory();
+
+        videoCard.conclusionFarewellMessage();
+        opticalDrive.returnStartPosition();
+
+        powerSupply.stopSupplyPowerVideoCard();
+        powerSupply.stopSupplyPowerRam();
+        powerSupply.stopSupplyPowerOpticalDrive();
+        powerSupply.stopSupplyPowerHdd();
+
+        sensors.checkVoltage();
+        powerSupply.stopSupplyPower();
+
+        System.out.println("------------------");
+        System.out.println("КОМПЬЮТЕР ОТКЛЮЧЕН.");
+        System.out.println("------------------");
+    }
+
+}
+
+class Facade {
+
+    Computer computer = new Computer();
+
+    public void BeginWork() throws Exception {
+        computer.turnOn();
+        //computer.turnOff();
+    }
+}
+
+class FacadeDemo {
+
+    public static void run() throws Exception {
+        Facade fasade = new Facade();
+        fasade.BeginWork();
+    }
+}
+
+public class JavaApplication26_4 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws Exception {
+        FacadeDemo.run();
+    }
+
+}
+
+run:
+Блок питания: подать питание.
+Датчики: проверить напряжение.
+Датчики: проверить температуру в блоке питания.
+Датчики: проверить температуру в видеокарте.
+Блок питания: подать питание на видеокарту.
+Видеокарта: запуск.
+Видеокарта: проверка связи с монитором.
+Датчики: проверить температуру в оперативной памяти.
+Блок питания: подать питание на оперативную память.
+Оперативная память: запуск устройств.
+Оперативная память: анализ памяти.
+Видеокарта: вывод данных об оперативной памяти.
+Блок питания: подать питание на устройство чтения дисков.
+Устройство чтения оптических дисков: запуск.
+Устройство чтения оптических дисков: проверка наличия диска.
+Видеокарта: вывод информации об устройстве чтения дисков.
+Блок питания: подать питание на винчестер.
+Винчестер: запуск.
+Винчестер: проверка загрузочного сектора
+Видеокарта: вывод данных о винчестере.
+Датчики: проверить температуру всех систем.
+------------------
+КОМПЬЮТЕР ВКЛЮЧЕН.
+------------------
+СБОРКА УСПЕШНО ЗАВЕРШЕНА (общее время: 0 секунд)
