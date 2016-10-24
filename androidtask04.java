@@ -1,9 +1,12 @@
 package com.example.oyla.androidtask04;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     CountDownTimer cdt;
     Date dt;
     final String beginText = "Lesson has begun!";
-    final String finishText = "Lesson has over!";
+    String finishText = "Lesson has over!";
     final int beginHour = 18;
     final int finishHour = 21;
     boolean startCounter = false;
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                     dt = new Date(millisUntilFinished);
                     SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
                     tv.setText(df.format(dt));
+                    int newColor = Color.argb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+                    getSupportActionBar().setBackgroundDrawable(new ColorDrawable(newColor));
                 }
 
                 @Override
@@ -65,3 +70,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
