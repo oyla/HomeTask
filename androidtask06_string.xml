@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AndroidTask06</string>
+    <string name="title">Freddie Mercury\nWe Are The Champions</string>
+    <string-array name="song_array">
+        <item>I\'ve paid my dues\nTime after time\nI\'ve done my sentence\nBut committed no crime\nAnd bad mistakes\nI\'ve made a few\nAnd I\'ve had my share of sand\nKicked in my face\nBut I\'ve come through\nAnd I need to go on and on and on and on</item>
+        <item>We are the champions - my friends\nAnd we\'ll keep on fightin\' till the end\nWe are the champions\nWe are the champions\nNo time for losers\n\'Cause we are the champions of the world</item>
+        <item>I\'ve taken my bows\nAnd my curtain calls\nYou brought me fame and fortune\nAnd everything that goes with it\nI thank you all\nBut it\'s been no bed of roses\nNo pleasure cruise\nI consider it a challenge before the whole human race\nAnd I ain\'t gonna lose\nAnd I need to go on, and on,and on, and on</item>
+        <item>We are the champions - my friends\nAnd we\'ll keep on fightin\' till the end\nWe are the champions\nWe are the champions\nNo time for losers\n\'Cause we are the champions of the world</item>
+    </string-array>
+</resources>
