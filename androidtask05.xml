@@ -9,31 +9,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.user.androidtask05.MainActivity">
+    android:screenOrientation="portrait"
+    tools:context="com.example.user.androidhometask05.MainActivity">
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/fl_uk"
-        android:id="@+id/imgBtn"
-        android:adjustViewBounds="false"
-        android:cropToPadding="false"
-        android:visibility="visible"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="89dp"
-        android:layout_marginEnd="89dp"
-        android:layout_marginBottom="139dp"
-        style="@android:style/Widget.DeviceDefault.Light.ImageButton"
-        android:scaleType="fitXY"
-        android:contextClickable="true" />
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@drawable/fl_en"
+        android:id="@+id/imageButton"
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
