@@ -1,61 +1,52 @@
-package com.example.user.androidtask05;
+package com.example.user.androidhometask05;
 
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity {
+    ImageButton imageButton;
+    int flag;
     MediaPlayer mediaPlayer;
-    //ImageButton imgBtn = (ImageButton) findViewById(R.id.imgBtn);
-    ImageButton imgButton;
-    int[] resID = {R.raw.gimn_uk, R.raw.gimn_uk, R.raw.gimn_uk};
-    int[] imgId = {R.drawable.fl_uk, R.drawable.fl_ru, R.drawable.fl_gb};
+    int gimn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        int[] resID = {R.raw.gimn_uk, R.raw.gimn_uk, R.raw.gimn_uk};
-//        int[] imgId = {R.drawable.fl_uk, R.drawable.fl_ru, R.drawable.fl_gb};
-        mediaPlayer = MediaPlayer.create(this, resID[0]);
-        //mediaPlayer = MediaPlayer.create(this, R.raw.gimn_uk);
-        imgButton = (ImageButton) findViewById(R.id.imgBtn);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        String locale = Locale.getDefault().getLanguage();
+        imageButton = (ImageButton) findViewById(R.id.imageButton);
 
-
-//        final Button button = (Button) findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//
-//                showToast("");
-//                mediaPlayer.start();
-//            }
-//        });
-//        final ImageButton imgButton = (ImageButton) findViewById(R.id.imgBtn);
-        imgButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showToast(imgButton.getDrawable().toString()+" ");
-//                mediaPlayer.start();
-                imgButton.setBackgroundResource(imgId[2]);
-            }
-        });
+        switch (locale) {
+            case "uk":
+                flag = R.drawable.fl_uk;
+                gimn = R.raw.gimn_uk;
+                break;
+            case "ru":
+                flag = R.drawable.fl_ru;
+                gimn = R.raw.gimn_ru;
+                break;
+            case "gb":
+                flag = R.drawable.fl_gb;
+                gimn = R.raw.gimn_gb;
+                break;
+            default:
+                flag = R.drawable.fl_en;
+                gimn = R.raw.gimn_us;
+                break;
+        }
+        imageButton.setImageResource(flag);
+        mediaPlayer = MediaPlayer.create(this, gimn);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        mediaPlayer.start();
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    public void showToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        mediaPlayer.start();
     }
 }
